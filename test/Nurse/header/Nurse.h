@@ -1,7 +1,7 @@
 #ifndef NURSE_H
 #define NURSE_H
 
-#include "MedicalStaff.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
 #include <vector>
 
 class Nurse : public MedicalStaff {

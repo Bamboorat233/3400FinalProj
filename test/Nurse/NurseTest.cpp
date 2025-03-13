@@ -1,4 +1,5 @@
 #include "Nurse.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
 #include <iostream>
 
 void testNurse() {

@@ -1,4 +1,5 @@
-#include "Nurse.h"
+#include "header/Nurse.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
 #include <iostream>
 
 // 构造函数
