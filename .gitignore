@@ -1,0 +1,18 @@
+# 忽略所有 .exe 文件
+*.exe
+
+# 只跟踪 .cpp 文件（可选，Git 默认跟踪所有未被忽略的文件）
+!*.cpp
+
+# 忽略 .vscode 目录
+.vscode/
+
+# 忽略build 目录
+build/
+
+#忽略 CMakeLists.txt 文件
+CMakeLists.txt
+
+#忽略 bin 目录
+bin/
+
