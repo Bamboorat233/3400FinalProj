@@ -1,7 +1,7 @@
 #ifndef DOCTOR_H
 #define DOCTOR_H
 
-#include "MedicalStaff.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
 #include <vector>
 
 class Doctor : public MedicalStaff {

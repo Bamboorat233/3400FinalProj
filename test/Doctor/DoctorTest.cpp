@@ -1,4 +1,5 @@
 #include "Doctor.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
 #include <iostream>
 
 int main() {

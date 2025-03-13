@@ -1,4 +1,5 @@
 #include "Doctor.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
 
 // 构造函数
 Doctor::Doctor(int id, std::string n, int h) : MedicalStaff(id, n, h) {}
