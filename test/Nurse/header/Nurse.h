@@ -1,16 +1,22 @@
 #ifndef NURSE_H
 #define NURSE_H
 
-#include "../../MedicalStaff/header/MedicalStaff.h"
+#include <utility>
 #include <vector>
 
-class Nurse : public MedicalStaff {
-private:
-    std::vector<int> assignedPatients; // 护士最多负责2个患者
+#include "../../MedicalStaff/header/MedicalStaff.h"
 
-public:
+class Nurse : public MedicalStaff {
+   private:
+    std::vector<int> assignedPatients;  // 护士最多负责2个患者
+
+   public:
     // 构造函数
+    Nurse();
     Nurse(int id, std::string n, int h);
+    Nurse(const Nurse& other);                 // 拷贝构造函数
+    Nurse(Nurse&& other) noexcept;             // ✅ 移动构造函数
+    Nurse& operator=(Nurse&& other) noexcept;  // ✅ 移动赋值运算符
 
     // 分配患者
     bool assignPatient(int patientID);
@@ -25,4 +31,4 @@ public:
     ~Nurse();
 };
 
-#endif // NURSE_H
+#endif  // NURSE_H

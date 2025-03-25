@@ -11,7 +11,6 @@ class Pharmacy {
     public:
         // 构造函数
         Pharmacy(int id);
-        Pharmacy();
         Pharmacy(const Pharmacy& other);
         
         // 添加账单金额
@@ -24,6 +23,9 @@ class Pharmacy {
         // 获取和设置药房ID
         int getPharmacyID() const;
         void setpharmacyID(int id);
+
+        Pharmacy(Pharmacy&& other) noexcept;               // ✅ 移动构造
+        Pharmacy& operator=(Pharmacy&& other) noexcept;    // ✅ 移动赋值
 
         // 析构函数
         ~Pharmacy();

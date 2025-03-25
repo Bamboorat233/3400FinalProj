@@ -16,3 +16,4 @@ CMakeLists.txt
 #忽略 bin 目录
 bin/
 
+.DS_Store
