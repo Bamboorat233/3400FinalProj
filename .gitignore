@@ -17,3 +17,5 @@ CMakeLists.txt
 bin/
 
 .DS_Store
+
+.vs/
