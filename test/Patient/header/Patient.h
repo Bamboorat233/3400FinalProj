@@ -5,7 +5,7 @@
 #include <vector>
 
 class Patient {
-private:
+   private:
     int patientID;
     int currentHospitalID;
     std::string personalInfo;
@@ -14,29 +14,29 @@ private:
     int attendingDoctorID;
     std::vector<int> consultingDoctors;
 
-public:
+   public:
     // 构造函数
     Patient(int id, std::string info, int hospitalID);
 
-    // 更新病情
+    // 拷贝构造和赋值（如有需要）
+    Patient(const Patient& other) = default;
+    Patient& operator=(const Patient& other) = default;
+
+    // ✅ 移动构造函数和赋值运算符
+    Patient(Patient&& other) noexcept;
+    Patient& operator=(Patient&& other) noexcept;
+
+    // 析构函数
+    ~Patient();
+
+    int getID() const;
+
     void updateCondition(std::string condition);
-
-    // 添加治疗方案
     void addTreatment(std::string treatment);
-
-    // 转移院区
     void transferHospital(int newHospitalID);
-
-    // 设置主治医生
     void setAttendingDoctor(int doctorID);
-
-    // 添加会诊医生
     void addConsultingDoctor(int doctorID);
-
-    // 移除会诊医生
     void removeConsultingDoctor(int doctorID);
-
-    // 显示患者信息
     void displayInfo() const;
 };
 

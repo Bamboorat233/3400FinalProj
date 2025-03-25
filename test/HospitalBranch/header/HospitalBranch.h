@@ -6,6 +6,7 @@
 #include "../../Patient/header/Patient.h"
 #include "../../Doctor/header/Doctor.h"
 #include "../../Nurse/header/Nurse.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
 
 class HospitalBranch {
 private:

@@ -1,46 +1,68 @@
 #include "header/MedicalStaff.h"
-#include <iostream>
 
-// 带参数的构造函数实现
-MedicalStaff::MedicalStaff(int id, std::string n, int h) : staffID(id), name(n), assignedHospital(h) {}
+#include <utility>
 
-// 默认构造函数实现
+// 默认构造
 MedicalStaff::MedicalStaff() : staffID(0), name(""), assignedHospital(0) {}
 
-// 拷贝构造函数实现
-MedicalStaff::MedicalStaff(const MedicalStaff& staff) : staffID(staff.staffID), name(staff.name), assignedHospital(staff.assignedHospital) {}
+// 带参数构造
+MedicalStaff::MedicalStaff(int id, const std::string& name, int hospital)
+    : staffID(id), name(name), assignedHospital(hospital) {}
 
-// 设置分配医院
-void MedicalStaff::setAssignedHospital(int h) {
-    assignedHospital = h;
-}
+// 拷贝构造函数
+MedicalStaff::MedicalStaff(const MedicalStaff& other)
+    : staffID(other.staffID),
+      name(other.name),
+      assignedHospital(other.assignedHospital) {}
 
-// 获取分配医院
-int MedicalStaff::getAssignedHospital() const {
-    return assignedHospital;
-}
-
-// 设置员工ID
-void MedicalStaff::setStaffID(int id) {
-    staffID = id;
-}
-
-// 获取员工ID
-int MedicalStaff::getStaffID() const {
-    return staffID;
-}
-
-// 获取姓名
-std::string MedicalStaff::getName() const {
-    return name;
-}
-
-// 设置姓名
-void MedicalStaff::setName(std::string n) {
-    name = n;
+// ✅ 移动构造函数
+MedicalStaff::MedicalStaff(MedicalStaff&& other) noexcept
+    : staffID(other.staffID),
+      name(std::move(other.name)),
+      assignedHospital(other.assignedHospital) {
+    // 可选：清理源对象
+    other.staffID = 0;
+    other.assignedHospital = 0;
 }
 
 // 析构函数
-MedicalStaff::~MedicalStaff() {
-    std::cout << "MedicalStaff " << staffID << " is destroyed." << std::endl;
+MedicalStaff::~MedicalStaff() {}
+
+// 拷贝赋值运算符
+MedicalStaff& MedicalStaff::operator=(const MedicalStaff& other) {
+    if (this != &other) {
+        staffID = other.staffID;
+        name = other.name;
+        assignedHospital = other.assignedHospital;
+    }
+    return *this;
+}
+
+// ✅ 移动赋值运算符
+MedicalStaff& MedicalStaff::operator=(MedicalStaff&& other) noexcept {
+    if (this != &other) {
+        staffID = other.staffID;
+        name = std::move(other.name);
+        assignedHospital = other.assignedHospital;
+
+        // 可选：清理源对象
+        other.staffID = 0;
+        other.assignedHospital = 0;
+    }
+    return *this;
+}
+
+// Getter 和 Setter 实现
+int MedicalStaff::getStaffID() const { return this->staffID; }
+
+std::string MedicalStaff::getName() const { return this->name; }
+
+int MedicalStaff::getAssignedHospital() const { return this->assignedHospital; }
+
+void MedicalStaff::setStaffID(int id) { staffID = id; }
+
+void MedicalStaff::setName(const std::string& name) { this->name = name; }
+
+void MedicalStaff::setAssignedHospital(int hospital) {
+    assignedHospital = hospital;
 }

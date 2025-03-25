@@ -5,7 +5,7 @@ int HospitalSystem::nextPatientID = 1000;
 
 HospitalSystem::HospitalSystem() {}
 
-// 初始化：5个院区，20个药房
+// Initialization: 5 branches, 20 pharmacies
 void HospitalSystem::initializeSystem() {
     for (int i = 1; i <= 5; ++i) {
         branches.emplace_back(i);
@@ -15,56 +15,63 @@ void HospitalSystem::initializeSystem() {
         pharmacies.emplace_back(i);
     }
 
-    std::cout << "系统初始化完成：5个院区，20个药房。\n";
+    std::cout << "System initialized: 5 branches and 20 pharmacies.\n";
 }
 
-// 登记患者
+// Register a patient
 int HospitalSystem::registerPatient(std::string info) {
     int id = nextPatientID++;
-    Patient newPatient(id, info, 1); // 默认分配到1号院区
-    allPatients[id] = newPatient;
-    std::cout << "成功登记新患者，ID: " << id << "\n";
+    Patient newPatient(id, info, 1); // Default assigned to branch 1
+    allPatients.emplace(id, std::move(newPatient));
+    std::cout << "Successfully registered new patient, ID: " << id << "\n";
     return id;
 }
 
-// 跨院区转移
+// Transfer across branches
 bool HospitalSystem::transferPatient(int patientID, int newBranch) {
-    if (allPatients.find(patientID) == allPatients.end()) {
-        std::cout << "无此患者。\n";
+    auto it = allPatients.find(patientID);
+    if (it == allPatients.end()) {
+        std::cout << "Patient not found.\n";
         return false;
     }
     if (newBranch < 1 || newBranch > 5) {
-        std::cout << "无效院区编号。\n";
+        std::cout << "Invalid branch number.\n";
         return false;
     }
-    allPatients[patientID].transferHospital(newBranch);
-    std::cout << "患者 " << patientID << " 成功转移至院区 " << newBranch << "\n";
+    it->second.transferHospital(newBranch);
+    std::cout << "Patient " << patientID << " successfully transferred to branch " << newBranch << "\n";
     return true;
 }
 
-// 添加医生
-void HospitalSystem::addDoctor(int branchID, Doctor doc) {
+
+// Add a doctor
+void HospitalSystem::addDoctor(int branchID, Doctor&& doc) {
     if (branchID < 1 || branchID > branches.size()) return;
-    branches[branchID - 1].addDoctor(doc);
+    branches[branchID - 1].addDoctor(std::move(doc));
 }
 
-// 添加护士
-void HospitalSystem::addNurse(int branchID, Nurse nrs) {
+// Add a nurse
+void HospitalSystem::addNurse(int branchID, Nurse&& nrs) {
     if (branchID < 1 || branchID > branches.size()) return;
-    branches[branchID - 1].addNurse(nrs);
+    branches[branchID - 1].addNurse(std::move(nrs));
 }
 
-// 注册药房
-void HospitalSystem::addPharmacy(Pharmacy pharma) {
-    pharmacies.push_back(pharma);
-    std::cout << "已注册药房 ID: " << pharma.getPharmacyID() << "\n";
+// Register a pharmacy
+void HospitalSystem::addPharmacy(Pharmacy&& pharma) {
+    if(pharmacies.size() >= 20){
+        std::cout << "Maximum number of pharmacies reached.\n";
+        return;
+    }
+    int PharmacyID = pharma.getPharmacyID();
+    pharmacies.push_back(std::move(pharma));
+    std::cout << "Pharmacy registered, ID: " << PharmacyID << "\n";
 }
 
-// 生成财务报告
+// Generate financial report
 void HospitalSystem::generateFinancialReport() const {
-    std::cout << "=== 医院财务报告 ===\n";
+    std::cout << "=== Hospital Financial Report ===\n";
     for (const Pharmacy& p : pharmacies) {
-        std::cout << "药房ID: " << p.getPharmacyID()
-                  << "，总金额: " << p.getTotalBill() << " 元\n";
+        std::cout << "Pharmacy ID: " << p.getPharmacyID()
+                  << ", Total Amount: " << p.getTotalBill() << " yuan\n";
     }
 }

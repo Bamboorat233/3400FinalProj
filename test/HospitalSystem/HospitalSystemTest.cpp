@@ -1,28 +1,30 @@
-#include "../HospitalSystem/header/HospitalSystem.h"
+#include "header/HospitalSystem.h"
 
 int main() {
     HospitalSystem system;
 
+    Pharmacy pharmacy1(21);
+
     system.initializeSystem();
 
-    // 注册两个新患者
-    int pid1 = system.registerPatient("小明，男，35岁");
-    int pid2 = system.registerPatient("小红，女，28岁");
+    // Register two new patients
+    int pid1 = system.registerPatient("Xiaoming, Male, 35 years old");
+    int pid2 = system.registerPatient("Xiaohong, Female, 28 years old");
 
-    // 转移患者到其他院区
+    // Transfer patients to other branches
     system.transferPatient(pid1, 2);
     system.transferPatient(pid2, 3);
 
-    // 注册一个额外药房
-    system.addPharmacy(Pharmacy(21));
+    // Register an additional pharmacy
+    system.addPharmacy(std::move(pharmacy1));
 
-    // 添加医生和护士
-    Doctor d1(501, "赵医生", 1);
-    Nurse n1(601, "王护士", 1);
-    system.addDoctor(1, d1);
-    system.addNurse(1, n1);
+    // Add a doctor and a nurse
+    Doctor d1(501, "Dr. Zhao", 1);
+    Nurse n1(601, "Nurse Wang", 1);
+    system.addDoctor(1, std::move(d1));
+    system.addNurse(1, std::move(n1));
 
-    // 财务报告
+    // Financial report
     system.generateFinancialReport();
 
     return 0;

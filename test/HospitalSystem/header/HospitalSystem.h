@@ -23,9 +23,9 @@ public:
     void initializeSystem();
     int registerPatient(std::string info);
     bool transferPatient(int patientID, int newBranch);
-    void addDoctor(int branchID, Doctor doc);
-    void addNurse(int branchID, Nurse nrs);
-    void addPharmacy(Pharmacy pharma);
+    void addDoctor(int branchID, Doctor&& doc);
+    void addNurse(int branchID, Nurse&& nrs);
+    void addPharmacy(Pharmacy&& pharma);
     void generateFinancialReport() const;
 };
 
