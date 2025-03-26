@@ -1,8 +1,8 @@
-#include "ConnectMySQL.h"
 #include <iostream>
 
-int main() {
+#include "ConnectMySQL.h"
 
+int main() {
     std::cout << "[TEST] connecting to database..." << std::endl;
 
     // 创建连接对象
@@ -18,7 +18,7 @@ int main() {
 
     // 更新患者信息
     std::cout << "[TEST] updating patient data..." << std::endl;
-    db.updatePatient(102, "Bob, Male, 30", 2, "diabetes", 1001);
+    db.updatePatient(1, "Bob, Male, 30", 2, "diabetes", 1001);
 
     // 测试查询所有患者
     std::cout << "[TEST] querying all patient data..." << std::endl;

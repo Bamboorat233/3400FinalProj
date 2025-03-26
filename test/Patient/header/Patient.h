@@ -30,6 +30,9 @@ class Patient {
     ~Patient();
 
     int getID() const;
+    std::string getPersonalInfo() const;
+    std::string getMedicalCondition() const;
+    int getAttendingDoctorID() const;
 
     void updateCondition(std::string condition);
     void addTreatment(std::string treatment);
@@ -40,4 +43,4 @@ class Patient {
     void displayInfo() const;
 };
 
-#endif // PATIENT_H
+#endif  // PATIENT_H

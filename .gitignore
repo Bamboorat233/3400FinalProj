@@ -19,3 +19,5 @@ bin/
 .DS_Store
 
 .vs/
+
+.clang-format
