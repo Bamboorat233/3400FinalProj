@@ -1,6 +1,6 @@
-#include "header/Patient.h"
-
 #include <iostream>
+
+#include "header/Patient.h"
 
 // 构造函数
 Patient::Patient(int id, std::string info, int hospitalID)
@@ -11,6 +11,11 @@ Patient::Patient(int id, std::string info, int hospitalID)
 
 // 获取病人ID
 int Patient::getID() const { return patientID; }
+
+std::string Patient::getPersonalInfo() const { return personalInfo; }
+std::string Patient::getMedicalCondition() const { return medicalCondition; }
+
+int Patient::getAttendingDoctorID() const { return attendingDoctorID; }
 
 // ✅ 移动构造函数
 Patient::Patient(Patient&& other) noexcept
@@ -118,5 +123,5 @@ void Patient::displayInfo() const {
 }
 
 Patient::~Patient() {
-    //std::cout << "Patient " << patientID << " destroyed" << std::endl;
+    // std::cout << "Patient " << patientID << " destroyed" << std::endl;
 }
