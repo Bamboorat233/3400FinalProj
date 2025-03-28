@@ -1,31 +1,26 @@
+#include <iostream>
+
 #include "header/HospitalSystem.h"
 
 int main() {
-    HospitalSystem system;
+    try {
+        // 初始化系统（会从数据库加载病人、分院、药房）
+        HospitalSystem hs;
 
-    Pharmacy pharmacy1(21);
+        std::cout << "\n=== registerPatient ===" << std::endl;
+        int patient1 = hs.registerPatient("Alice, Female, 28", 1, "Flu", 1001);
+        int patient2 = hs.registerPatient("Bob, Male, 35", 2, "Headache", 1002);
 
-    system.initializeSystem();
+        std::cout << "\n=== transferPatient ===" << std::endl;
+        hs.transferPatient(patient1, 3);
 
-    // Register two new patients
-    int pid1 = system.registerPatient("Xiaoming, Male, 35 years old");
-    int pid2 = system.registerPatient("Xiaohong, Female, 28 years old");
+        std::cout << "\n=== generateFinancialReport ===" << std::endl;
+        hs.generateFinancialReport();
 
-    // Transfer patients to other branches
-    system.transferPatient(pid1, 2);
-    system.transferPatient(pid2, 3);
-
-    // Register an additional pharmacy
-    system.addPharmacy(std::move(pharmacy1));
-
-    // Add a doctor and a nurse
-    Doctor d1(501, "Dr. Zhao", 1);
-    Nurse n1(601, "Nurse Wang", 1);
-    system.addDoctor(1, std::move(d1));
-    system.addNurse(1, std::move(n1));
-
-    // Financial report
-    system.generateFinancialReport();
+    } catch (const std::exception& e) {
+        std::cerr << "[FATAL ERROR] Uncaught exception: " << e.what()
+                  << std::endl;
+    }
 
     return 0;
 }
