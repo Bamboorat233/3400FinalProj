@@ -1,4 +1,4 @@
-#include "purchasemedicationwindow.h"
+#include "header/purchasemedicationwindow.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>

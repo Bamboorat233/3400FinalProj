@@ -1,4 +1,4 @@
-#include "adddoctorwindow.h"
+#include "header/adddoctorwindow.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>

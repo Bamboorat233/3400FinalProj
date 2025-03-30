@@ -1,4 +1,4 @@
-#include "dailyreportwindow.h"
+#include "header/dailyreportwindow.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>

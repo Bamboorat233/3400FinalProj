@@ -1,4 +1,4 @@
-#include "registerpatientwindow.h"
+#include "header/registerpatientwindow.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>

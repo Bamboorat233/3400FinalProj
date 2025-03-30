@@ -1,4 +1,4 @@
-#include "financialreportwindow.h"
+#include "header/financialreportwindow.h"
 #include <QVBoxLayout>
 #include <QLabel>
 
