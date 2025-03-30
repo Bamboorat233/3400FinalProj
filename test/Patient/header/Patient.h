@@ -33,7 +33,7 @@ class Patient {
     ~Patient();
 
     int getID() const;
-    bool getmedicalCertificate() const;
+
     void updateCondition(std::string condition);
     void addTreatment(std::string treatment);
     void transferHospital(int newHospitalID);
