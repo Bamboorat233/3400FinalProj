@@ -1,6 +1,6 @@
-#include "header/Patient.h"
-
 #include <iostream>
+
+#include "header/Patient.h"
 
 // 构造函数
 Patient::Patient(int id, std::string info, int hospitalID)
@@ -52,6 +52,13 @@ void Patient::updateCondition(std::string condition) {
     std::cout << "Patient " << patientID
               << " condition updated to: " << condition << std::endl;
 }
+
+// 计算费用
+int Patient::calculateFee() { return this->patientFee * this->healingDays; }
+
+bool Patient::isHealed() { return this->medicalCertificate = true; }
+
+bool Patient::getmedicalCertificate() { return this->medicalCertificate; }
 
 // 添加治疗方案
 void Patient::addTreatment(std::string treatment) {
@@ -118,5 +125,5 @@ void Patient::displayInfo() const {
 }
 
 Patient::~Patient() {
-    //std::cout << "Patient " << patientID << " destroyed" << std::endl;
+    // std::cout << "Patient " << patientID << " destroyed" << std::endl;
 }

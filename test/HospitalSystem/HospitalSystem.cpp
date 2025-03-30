@@ -1,5 +1,6 @@
-#include "header/HospitalSystem.h"
 #include <iostream>
+
+#include "header/HospitalSystem.h"
 
 int HospitalSystem::nextPatientID = 1000;
 
@@ -21,7 +22,7 @@ void HospitalSystem::initializeSystem() {
 // Register a patient
 int HospitalSystem::registerPatient(std::string info) {
     int id = nextPatientID++;
-    Patient newPatient(id, info, 1); // Default assigned to branch 1
+    Patient newPatient(id, info, 1);  // Default assigned to branch 1
     allPatients.emplace(id, std::move(newPatient));
     std::cout << "Successfully registered new patient, ID: " << id << "\n";
     return id;
@@ -39,10 +40,10 @@ bool HospitalSystem::transferPatient(int patientID, int newBranch) {
         return false;
     }
     it->second.transferHospital(newBranch);
-    std::cout << "Patient " << patientID << " successfully transferred to branch " << newBranch << "\n";
+    std::cout << "Patient " << patientID
+              << " successfully transferred to branch " << newBranch << "\n";
     return true;
 }
-
 
 // Add a doctor
 void HospitalSystem::addDoctor(int branchID, Doctor&& doc) {
@@ -58,7 +59,7 @@ void HospitalSystem::addNurse(int branchID, Nurse&& nrs) {
 
 // Register a pharmacy
 void HospitalSystem::addPharmacy(Pharmacy&& pharma) {
-    if(pharmacies.size() >= 20){
+    if (pharmacies.size() >= 20) {
         std::cout << "Maximum number of pharmacies reached.\n";
         return;
     }
@@ -75,3 +76,6 @@ void HospitalSystem::generateFinancialReport() const {
                   << ", Total Amount: " << p.getTotalBill() << " yuan\n";
     }
 }
+void AssignDoctorToPatient(int patientID, int staffID) {}
+void nurseAssignPatient(int staffID, int patientID) {}
+void nurseReleasePatient(int staffID, int patientID) {}
