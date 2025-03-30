@@ -39,9 +39,19 @@ HospitalSystem::HospitalSystem()
 HospitalSystem::~HospitalSystem() { db.close(); }
 
 // Register a patient
-int HospitalSystem::registerPatient(std::string info) {
-    int id = nextPatientID++;
-    Patient newPatient(id, info, 1);  // Default assigned to branch 1
+int HospitalSystem::registerPatient(const std::string info, int hospitalID,
+                                    const std::string& medicalCondition,
+                                    int attendingDoctorID) {
+    if (!db.doctorExists(attendingDoctorID)) {
+        std::cerr << "[ERROR] Doctor ID " << attendingDoctorID
+                  << " does not exist.\n";
+        return -1;
+    }
+    int id = db.queryLastPatientID() + 1;
+    Patient newPatient(id, info, hospitalID);  // Default assigned to branch 1
+    newPatient.updateCondition(medicalCondition);
+    newPatient.setAttendingDoctor(attendingDoctorID);
+    db.insertPatient(id, info, hospitalID, medicalCondition, attendingDoctorID);
     allPatients.emplace(id, std::move(newPatient));
     std::cout << "Successfully registered new patient, ID: " << id << "\n";
     return id;
