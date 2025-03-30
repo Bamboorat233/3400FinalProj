@@ -8,11 +8,14 @@ class Patient {
    private:
     int patientID;
     int currentHospitalID;
+    int patientFee;
+    int healingDays;
+    int attendingDoctorID;
     std::string personalInfo;
     std::string medicalCondition;
     std::vector<std::string> treatments;
-    int attendingDoctorID;
     std::vector<int> consultingDoctors;
+    bool medicalCertificate;
 
    public:
     // 构造函数
@@ -30,10 +33,8 @@ class Patient {
     ~Patient();
 
     int getID() const;
-    std::string getPersonalInfo() const;
-    std::string getMedicalCondition() const;
-    int getAttendingDoctorID() const;
-
+    bool getmedicalCertificate() const;
+    int getCurrentHospitalID() const;
     void updateCondition(std::string condition);
     void addTreatment(std::string treatment);
     void transferHospital(int newHospitalID);
@@ -41,6 +42,8 @@ class Patient {
     void addConsultingDoctor(int doctorID);
     void removeConsultingDoctor(int doctorID);
     void displayInfo() const;
+    int calculateFee();
+    bool isHealed();
 };
 
 #endif  // PATIENT_H
