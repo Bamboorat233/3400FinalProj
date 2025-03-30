@@ -20,12 +20,14 @@ class HospitalBranch {
    public:
     // 构造函数
     HospitalBranch(int id);
+    Doctor& getDoctor(int index) const;  // 获取医生
 
     // 患者相关操作
     bool admitPatient(Patient& p, int doctorID);  // 接收患者
     int dischargePatient(int patientID);          // 出院结算费用
     bool assignDoctor(int patientID);             // 分配主治医生
     bool assignNurse(int patientID);              // 分配护士
+    bool nurseRelease(int patientID);             // 解除护士责任
 
     // 药品相关
     void purchaseMedication(int pharmacyID, double amount);  // 药品采购

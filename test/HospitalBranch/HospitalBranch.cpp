@@ -116,3 +116,16 @@ void HospitalBranch::addNurse(Nurse nrs) {
     nurses.push_back(std::move(nrs));
     std::cout << "Nurse added successfully, ID: " << id << "\n";
 }
+
+Doctor& HospitalBranch::getDoctor(int index) const { return doctors.at(index); }
+
+bool HospitalBranch::nurseRelease(int patientID) {
+    for (Nurse& nurse : nurses) {
+        if (nurse.releasePatient(patientID)) {
+            std::cout << "Nurse released patient " << patientID << ".\n";
+            return true;
+        }
+    }
+    std::cout << "No nurse found to release patient.\n";
+    return false;
+}

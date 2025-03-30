@@ -107,6 +107,42 @@ void HospitalSystem::generateFinancialReport() const {
                   << ", Total Amount: " << p.getTotalBill() << " yuan\n";
     }
 }
-void AssignDoctorToPatient(int patientID, int staffID) {}
-void nurseAssignPatient(int staffID, int patientID) {}
-void nurseReleasePatient(int staffID, int patientID) {}
+void HospitalSystem::AssignDoctorToPatient(int patientID) {
+    for (auto it = patients.begin(); it != patients.end(); ++it) {
+        if (it->getID() == patientID) {
+            int branchID = it->getCurrentHospitalID();
+            HospitalBranch HB = branches.at(branchID - 1);
+            for (int i = 0; i < 3; i++) {
+                it->consultingDoctors.push_back(HB.getDoctor(i));
+            }
+        }
+    }
+    std::cout << "PatientID not found." << std::endl;
+}
+void HospitalSystem::nurseAssignPatient(int patientID) {
+    for (auto it = patients.begin(); it != patients.end(); ++it) {
+        if (it->getID() == patientID) {
+            int branchID = it->getCurrentHospitalID();
+            HospitalBranch HB = branches.at(branchID - 1);
+            for (int i = 0; i < 5; i++) {
+                bool assigned = HB.assignNurse(patientID);
+            }
+            if (assigned) {
+                std::cout << "Nurse assigned to patient." << std::endl;
+            } else {
+                std::cout << "No nurse currently available." << std::endl;
+            }
+        }
+        std::cout << "PatientID not found." << std::endl;
+    }
+}
+void HospitalSystem::nurseReleasePatient(int staffID, int patientID) {
+    for (auto it = patients.begin(); it != patients.end(); ++it) {
+        if (it->getID() == patientID) {
+            int branchID = it->getCurrentHospitalID();
+            HospitalBranch HB = branches.at(branchID - 1);
+            HB.nurseRelease(patientID);
+        }
+        std::cout << "PatientID not found." << std::endl;
+    }
+}

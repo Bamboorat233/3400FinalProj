@@ -4,11 +4,11 @@
 #include <string>
 #include <unordered_map>
 
+#include "../../ConnectMySQL/header/ConnectMySQL.h"
 #include "../../HospitalBranch/header/HospitalBranch.h"
 #include "../../Nurse/header/Nurse.h"
 #include "../../Patient/header/Patient.h"
 #include "../../Pharmacy/header/Pharmacy.h"
-
 
 class HospitalSystem {
    private:
@@ -29,6 +29,9 @@ class HospitalSystem {
     void addNurse(int branchID, Nurse&& nrs);
     void addPharmacy(Pharmacy&& pharma);
     void generateFinancialReport() const;
+    void AssignDoctorToPatient(int patientID);
+    void nurseAssignPatient(int patientID);
+    void nurseReleasePatient(int staffID, int patientID);
 };
 
 #endif  // HOSPITAL_SYSTEM_H
