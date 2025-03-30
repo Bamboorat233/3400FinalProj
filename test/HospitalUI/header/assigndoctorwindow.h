@@ -4,17 +4,22 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+#include "../HospitalSystem/header/HospitalSystem.h"
+
 class AssignDoctorWindow : public QDialog {
     Q_OBJECT
 
-public:
-    explicit AssignDoctorWindow(QWidget *parent = nullptr);
+   public:
+    explicit AssignDoctorWindow(HospitalSystem *hospitalSystem,
+                                QWidget *parent = nullptr);
 
-private slots:
+   private slots:
     void onAssignClicked();
 
-private:
+   private:
     QLineEdit *patientIdEdit;
     QLineEdit *doctorIdEdit;
     QPushButton *assignButton;
+
+    HospitalSystem *hospitalSystem;  // 用于操作 HospitalSystem 的指针
 };

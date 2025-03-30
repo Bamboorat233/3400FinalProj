@@ -1,8 +1,7 @@
 #include "header/mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-{
+MainWindow::MainWindow(HospitalSystem *hospitalSystem, QWidget *parent)
+    : QMainWindow(parent), hospitalSystem(hospitalSystem) {
     setWindowTitle("Hospital Management System");
     resize(500, 500);
 
@@ -26,7 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPushButton *addDoctorBtn = new QPushButton("Add Doctor", this);
     mainLayout->addWidget(addDoctorBtn);
-    connect(addDoctorBtn, &QPushButton::clicked, this, &MainWindow::openAddDoctorWindow);
+    connect(addDoctorBtn, &QPushButton::clicked, this,
+            &MainWindow::openAddDoctorWindow);
 
     // Patient Management Section
     QLabel *patientLabel = new QLabel("🧍 Patient Management", this);
@@ -46,10 +46,14 @@ MainWindow::MainWindow(QWidget *parent)
     patientRow2->addWidget(assignBtn);
     mainLayout->addLayout(patientRow2);
 
-    connect(registerBtn, &QPushButton::clicked, this, &MainWindow::openRegisterPatientWindow);
-    connect(transferBtn, &QPushButton::clicked, this, &MainWindow::openTransferPatientWindow);
-    connect(updateBtn, &QPushButton::clicked, this, &MainWindow::openUpdateConditionWindow);
-    connect(assignBtn, &QPushButton::clicked, this, &MainWindow::openAssignDoctorWindow);
+    connect(registerBtn, &QPushButton::clicked, this,
+            &MainWindow::openRegisterPatientWindow);
+    connect(transferBtn, &QPushButton::clicked, this,
+            &MainWindow::openTransferPatientWindow);
+    connect(updateBtn, &QPushButton::clicked, this,
+            &MainWindow::openUpdateConditionWindow);
+    connect(assignBtn, &QPushButton::clicked, this,
+            &MainWindow::openAssignDoctorWindow);
 
     // Pharmacy & Reports Section
     QLabel *pharmacyLabel = new QLabel("💊 Pharmacy & Reports", this);
@@ -65,9 +69,12 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *financialBtn = new QPushButton("Financial Report", this);
     mainLayout->addWidget(financialBtn);
 
-    connect(purchaseBtn, &QPushButton::clicked, this, &MainWindow::openPurchaseMedicationWindow);
-    connect(dailyBtn, &QPushButton::clicked, this, &MainWindow::openDailyReportWindow);
-    connect(financialBtn, &QPushButton::clicked, this, &MainWindow::openFinancialReportWindow);
+    connect(purchaseBtn, &QPushButton::clicked, this,
+            &MainWindow::openPurchaseMedicationWindow);
+    connect(dailyBtn, &QPushButton::clicked, this,
+            &MainWindow::openDailyReportWindow);
+    connect(financialBtn, &QPushButton::clicked, this,
+            &MainWindow::openFinancialReportWindow);
 }
 
 MainWindow::~MainWindow() {}

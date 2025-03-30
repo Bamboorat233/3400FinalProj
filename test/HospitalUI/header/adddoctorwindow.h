@@ -1,22 +1,28 @@
 #pragma once
 
+#include <QComboBox>
 #include <QDialog>
 #include <QLineEdit>
-#include <QComboBox>
 #include <QPushButton>
+
+#include "../HospitalSystem/header/HospitalSystem.h"
+
 
 class AddDoctorWindow : public QDialog {
     Q_OBJECT
 
-public:
-    explicit AddDoctorWindow(QWidget *parent = nullptr);
+   public:
+    explicit AddDoctorWindow(HospitalSystem *hospitalSystem,
+                             QWidget *parent = nullptr);
 
-private slots:
+   private slots:
     void onAddClicked();
 
-private:
+   private:
     QLineEdit *nameEdit;
     QLineEdit *idEdit;
     QComboBox *branchComboBox;
     QPushButton *addButton;
+
+    HospitalSystem *hospitalSystem;  // 指向 HospitalSystem 的指针
 };

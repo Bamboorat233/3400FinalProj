@@ -1,27 +1,28 @@
 #pragma once
 
+#include <QHBoxLayout>
+#include <QLabel>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
+
 #include "adddoctorwindow.h"
+#include "assigndoctorwindow.h"
+#include "dailyreportwindow.h"
+#include "financialreportwindow.h"
+#include "purchasemedicationwindow.h"
 #include "registerpatientwindow.h"
 #include "transferpatientwindow.h"
 #include "updateconditionwindow.h"
-#include "assigndoctorwindow.h"
-#include "purchasemedicationwindow.h"
-#include "dailyreportwindow.h"
-#include "financialreportwindow.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
+   public:
+    MainWindow(HospitalSystem *hospitalSystem, QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
+   private slots:
     void openAddDoctorWindow();
     void openRegisterPatientWindow();
     void openTransferPatientWindow();
@@ -31,7 +32,8 @@ private slots:
     void openDailyReportWindow();
     void openFinancialReportWindow();
 
-private:
+   private:
     QWidget *central;
     QVBoxLayout *mainLayout;
+    HospitalSystem *hospitalSystem;
 };
