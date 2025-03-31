@@ -1,12 +1,13 @@
-#include "header/assigndoctorwindow.h"
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
+#include <QVBoxLayout>
 
-AssignDoctorWindow::AssignDoctorWindow(QWidget *parent)
-    : QDialog(parent)
-{
+#include "header/assigndoctorwindow.h"
+
+AssignDoctorWindow::AssignDoctorWindow(QWidget *parent,
+                                       HospitalSystem *hospitalSystem)
+    : QDialog(parent), hospitalSystem(hospitalSystem) {
     setWindowTitle("Assign Doctor");
     resize(300, 160);
 
@@ -30,7 +31,8 @@ AssignDoctorWindow::AssignDoctorWindow(QWidget *parent)
     assignButton = new QPushButton("Assign");
     mainLayout->addWidget(assignButton);
 
-    connect(assignButton, &QPushButton::clicked, this, &AssignDoctorWindow::onAssignClicked);
+    connect(assignButton, &QPushButton::clicked, this,
+            &AssignDoctorWindow::onAssignClicked);
 }
 
 void AssignDoctorWindow::onAssignClicked() {
@@ -38,22 +40,25 @@ void AssignDoctorWindow::onAssignClicked() {
     QString doctorId = doctorIdEdit->text();
 
     if (patientId.isEmpty() || doctorId.isEmpty()) {
-        QMessageBox::warning(this, "Warning", "Please enter both Patient ID and Doctor ID.");
+        QMessageBox::warning(this, "Warning",
+                             "Please enter both Patient ID and Doctor ID.");
         return;
     }
 
-    auto it = allPatients.find(patientID);
+    auto it = allPatients.find(patientId);
     if (it == allPatients.end()) {
         std::cout << "Patient not found.\n";
         return false;
     }
 
     int CurrBranchID = it->second.getCurrentHospitalID();
-    HospitalBranch CurrBranch = getBranch(CurrBranchID);
+    bool assigned = it->second.getBranch(CurrBranchID).assignDoctor(patientId);
+    if (assigned) {
+        QMessageBox::information(this, "Success",
+                                 "Doctor assigned successfully.");
+    } else {
+        QMessageBox::information(this, "Failure");
+    }
 
-
-
-
-    QMessageBox::information(this, "Success", "Doctor assigned successfully.");
     close();
 }

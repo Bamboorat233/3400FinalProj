@@ -1,10 +1,11 @@
-#include "header/financialreportwindow.h"
-#include <QVBoxLayout>
 #include <QLabel>
+#include <QVBoxLayout>
 
-FinancialReportWindow::FinancialReportWindow(QWidget *parent)
-    : QDialog(parent)
-{
+#include "header/financialreportwindow.h"
+
+FinancialReportWindow::FinancialReportWindow(QWidget *parent,
+                                             HospitalSystem *hospitalSystem)
+    : QDialog(parent), hospitalSystem(hospitalSystem) {
     setWindowTitle("Financial Report");
     resize(400, 300);
 
@@ -20,15 +21,8 @@ FinancialReportWindow::FinancialReportWindow(QWidget *parent)
     generateButton = new QPushButton("Generate Report");
     mainLayout->addWidget(generateButton);
 
-    connect(generateButton, &QPushButton::clicked, this, &FinancialReportWindow::onGenerateClicked);
+    connect(generateButton, &QPushButton::clicked, this,
+            &FinancialReportWindow::onGenerateClicked);
 }
 
-void FinancialReportWindow::onGenerateClicked() {
-    QString report;
-    report += "Pharmacy 1 - ¥1200.50\n";
-    report += "Pharmacy 2 - ¥875.00\n";
-    report += "Pharmacy 3 - ¥342.75\n";
-    report += "Pharmacy 4 - ¥998.90\n";
-
-    reportArea->setPlainText(report);
-}
+void FinancialReportWindow::onGenerateClicked() {}
