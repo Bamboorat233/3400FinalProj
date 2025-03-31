@@ -1,12 +1,13 @@
-#include "header/registerpatientwindow.h"
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
+#include <QVBoxLayout>
 
-RegisterPatientWindow::RegisterPatientWindow(QWidget *parent)
-    : QDialog(parent)
-{
+#include "header/registerpatientwindow.h"
+
+RegisterPatientWindow::RegisterPatientWindow(QWidget *parent,
+                                             HospitalSystem *hospitalSystem)
+    : QDialog(parent), hospitalSystem(hospitalSystem) {
     setWindowTitle("Register Patient");
     resize(350, 250);
 
@@ -53,11 +54,12 @@ RegisterPatientWindow::RegisterPatientWindow(QWidget *parent)
     registerButton = new QPushButton("Register");
     mainLayout->addWidget(registerButton);
 
-    connect(registerButton, &QPushButton::clicked, this, &RegisterPatientWindow::onRegisterClicked);
+    connect(registerButton, &QPushButton::clicked, this,
+            &RegisterPatientWindow::onRegisterClicked);
 }
 
 void RegisterPatientWindow::onRegisterClicked() {
-    QString name = nameEdit->text();
+    QString info = nameEdit->text();
     QString id = idEdit->text();
     QString condition = conditionEdit->text();
 
@@ -65,8 +67,8 @@ void RegisterPatientWindow::onRegisterClicked() {
         QMessageBox::warning(this, "Warning", "Please enter both name and ID.");
         return;
     }
-
-    // 注册逻辑留作后续数据库开发阶段处理
-    QMessageBox::information(this, "Success", "Patient registered successfully.");
+    int PID = hospitalSystem->registerPatient();
+    QMessageBox::information(this, "Success",
+                             "Patient registered successfully.");
     close();
 }

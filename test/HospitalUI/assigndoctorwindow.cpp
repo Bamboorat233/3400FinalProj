@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
+#include "../HospitalBranch/header/HospitalBranch.h"
 #include "header/assigndoctorwindow.h"
 
 AssignDoctorWindow::AssignDoctorWindow(QWidget *parent,
@@ -52,7 +53,8 @@ void AssignDoctorWindow::onAssignClicked() {
     }
 
     int CurrBranchID = it->second.getCurrentHospitalID();
-    bool assigned = it->second.getBranch(CurrBranchID).assignDoctor(patientId);
+    HospitalBranch currBrannchID = it->second.getBranch(CurrBranchID);
+    bool assigned = currBrannchID.assignDoctor(patientId);
     if (assigned) {
         QMessageBox::information(this, "Success",
                                  "Doctor assigned successfully.");
