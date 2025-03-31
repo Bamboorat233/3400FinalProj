@@ -32,6 +32,7 @@ class HospitalSystem {
     void AssignDoctorToPatient(int patientID);
     void nurseAssignPatient(int patientID);
     void nurseReleasePatient(int staffID, int patientID);
+    HospitalBranch getBranch(int branchID);
 };
 
 #endif  // HOSPITAL_SYSTEM_H

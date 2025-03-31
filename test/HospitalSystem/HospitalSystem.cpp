@@ -146,3 +146,7 @@ void HospitalSystem::nurseReleasePatient(int staffID, int patientID) {
         std::cout << "PatientID not found." << std::endl;
     }
 }
+
+HospitalBranch HospitalSystem::getBranch(int branchID) {
+    return branches.at(branchID - 1);
+}
