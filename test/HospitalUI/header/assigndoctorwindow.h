@@ -5,6 +5,7 @@
 #include <QPushButton>
 
 #include "../HospitalSystem/header/HospitalSystem.h"
+#include "../HospitalBranch/header/HospitalBranch.h"
 
 class AssignDoctorWindow : public QDialog {
     Q_OBJECT

@@ -49,7 +49,8 @@ void AssignDoctorWindow::onAssignClicked() {
     }
 
     int CurrBranchID = it->second.getCurrentHospitalID();
-    
+    HospitalBranch CurrBranch = getBranch(CurrBranchID);
+
 
 
 
