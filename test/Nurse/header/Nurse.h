@@ -22,7 +22,7 @@ class Nurse : public MedicalStaff {
     bool assignPatient(int patientID);
 
     // 解除患者
-    void releasePatient(int patientID);
+    bool releasePatient(int patientID);
 
     // 获取当前负责的患者
     std::vector<int> getAssignedPatients() const;

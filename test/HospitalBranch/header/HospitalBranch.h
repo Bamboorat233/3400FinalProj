@@ -20,7 +20,7 @@ class HospitalBranch {
    public:
     // 构造函数
     HospitalBranch(int id);
-    Doctor& getDoctor(int index) const;  // 获取医生
+    Doctor& getDoctor(int index);  // 获取医生
 
     // 患者相关操作
     bool admitPatient(Patient& p, int doctorID);  // 接收患者

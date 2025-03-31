@@ -20,18 +20,19 @@ class HospitalSystem {
 
    public:
     HospitalSystem();
-
+    ~HospitalSystem();
     int registerPatient(const std::string info, int hospitalID,
                         const std::string& medicalCondition,
                         int attendingDoctorID);
     bool transferPatient(int patientID, int newBranch);
-    void addDoctor(int branchID, Doctor&& doc);
-    void addNurse(int branchID, Nurse&& nrs);
+    void addDoctor(int branchID, int staffID, const std::string& name);
+    void addNurse(int branchID, int staffID, const std::string& name);
     void addPharmacy(Pharmacy&& pharma);
     void generateFinancialReport() const;
     void AssignDoctorToPatient(int patientID);
     void nurseAssignPatient(int patientID);
     void nurseReleasePatient(int staffID, int patientID);
+    HospitalBranch getBranch(int branchID);
 };
 
 #endif  // HOSPITAL_SYSTEM_H
