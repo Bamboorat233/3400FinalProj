@@ -42,6 +42,17 @@ void AssignDoctorWindow::onAssignClicked() {
         return;
     }
 
+    auto it = allPatients.find(patientID);
+    if (it == allPatients.end()) {
+        std::cout << "Patient not found.\n";
+        return false;
+    }
+
+    int CurrBranchID = it->second.getCurrentHospitalID();
+    
+
+
+
     QMessageBox::information(this, "Success", "Doctor assigned successfully.");
     close();
 }

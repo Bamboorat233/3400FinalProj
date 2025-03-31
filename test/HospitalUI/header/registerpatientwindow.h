@@ -6,11 +6,15 @@
 #include <QDateEdit>
 #include <QPushButton>
 
+#include "../HospitalSystem/header/HospitalSystem.h"
+
+
 class RegisterPatientWindow : public QDialog {
     Q_OBJECT
 
 public:
-    explicit RegisterPatientWindow(QWidget *parent = nullptr);
+    explicit RegisterPatientWindow(HospitalSystem *hospitalSystem,
+                                QWidget *parent = nullptr);
 
 private slots:
     void onRegisterClicked();
@@ -22,4 +26,6 @@ private:
     QComboBox *genderComboBox;
     QLineEdit *conditionEdit;
     QPushButton *registerButton;
+
+    HospitalSystem *hospitalSystem;
 };

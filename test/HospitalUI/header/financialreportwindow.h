@@ -4,11 +4,15 @@
 #include <QTextEdit>
 #include <QPushButton>
 
+#include "../HospitalSystem/header/HospitalSystem.h"
+
+
 class FinancialReportWindow : public QDialog {
     Q_OBJECT
 
 public:
-    explicit FinancialReportWindow(QWidget *parent = nullptr);
+    explicit FinancialReportWindow(HospitalSystem *hospitalSystem,
+                                QWidget *parent = nullptr);
 
 private slots:
     void onGenerateClicked();
@@ -16,4 +20,6 @@ private slots:
 private:
     QTextEdit *reportArea;
     QPushButton *generateButton;
+
+    HospitalSystem *hospitalSystem;
 };
