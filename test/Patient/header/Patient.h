@@ -36,10 +36,13 @@ class Patient {
     bool getmedicalCertificate() const;
     int getCurrentHospitalID() const;
     void updateCondition(std::string condition);
+    int getAttendingDoctorID() const;
     void addTreatment(std::string treatment);
     void transferHospital(int newHospitalID);
     void setAttendingDoctor(int doctorID);
     void addConsultingDoctor(int doctorID);
+    std::string getPersonalInfo() const;
+    std::string getMedicalCondition() const;
     void removeConsultingDoctor(int doctorID);
     void displayInfo() const;
     int calculateFee();

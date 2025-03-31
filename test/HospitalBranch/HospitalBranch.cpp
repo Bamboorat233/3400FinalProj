@@ -117,7 +117,7 @@ void HospitalBranch::addNurse(Nurse nrs) {
     std::cout << "Nurse added successfully, ID: " << id << "\n";
 }
 
-Doctor& HospitalBranch::getDoctor(int index) const { return doctors.at(index); }
+Doctor& HospitalBranch::getDoctor(int index) { return doctors.at(index); }
 
 bool HospitalBranch::nurseRelease(int patientID) {
     for (Nurse& nurse : nurses) {
