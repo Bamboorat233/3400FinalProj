@@ -71,16 +71,6 @@ bool HospitalSystem::transferPatient(int patientID, int newBranch) {
 
     // 更新内存中的 patient 对象
     it->second.transferHospital(newBranch);
-
-    // 调用 ConnectMySQL::movePatientToDiffBranch 来同步数据库
-    db.movePatientToDiffBranch(
-        it->second.getID(),                // patientID
-        it->second.getPersonalInfo(),      // personalInfo
-        newBranch,                         // currentHospitalID
-        it->second.getMedicalCondition(),  // medicalCondition
-        it->second.getAttendingDoctorID()  // attendingDoctorID
-    );
-
     std::cout << "Patient " << patientID
               << " successfully transferred to branch " << newBranch << "\n";
     return true;
@@ -115,5 +105,44 @@ void HospitalSystem::generateFinancialReport() const {
     for (const Pharmacy& p : pharmacies) {
         std::cout << "Pharmacy ID: " << p.getPharmacyID()
                   << ", Total Amount: " << p.getTotalBill() << " yuan\n";
+    }
+}
+void HospitalSystem::AssignDoctorToPatient(int patientID) {
+    for (auto it = patients.begin(); it != patients.end(); ++it) {
+        if (it->getID() == patientID) {
+            int branchID = it->getCurrentHospitalID();
+            HospitalBranch HB = branches.at(branchID - 1);
+            for (int i = 0; i < 3; i++) {
+                it->consultingDoctors.push_back(HB.getDoctor(i));
+            }
+        }
+    }
+    std::cout << "PatientID not found." << std::endl;
+}
+void HospitalSystem::nurseAssignPatient(int patientID) {
+    for (auto it = patients.begin(); it != patients.end(); ++it) {
+        if (it->getID() == patientID) {
+            int branchID = it->getCurrentHospitalID();
+            HospitalBranch HB = branches.at(branchID - 1);
+            for (int i = 0; i < 5; i++) {
+                bool assigned = HB.assignNurse(patientID);
+            }
+            if (assigned) {
+                std::cout << "Nurse assigned to patient." << std::endl;
+            } else {
+                std::cout << "No nurse currently available." << std::endl;
+            }
+        }
+        std::cout << "PatientID not found." << std::endl;
+    }
+}
+void HospitalSystem::nurseReleasePatient(int staffID, int patientID) {
+    for (auto it = patients.begin(); it != patients.end(); ++it) {
+        if (it->getID() == patientID) {
+            int branchID = it->getCurrentHospitalID();
+            HospitalBranch HB = branches.at(branchID - 1);
+            HB.nurseRelease(patientID);
+        }
+        std::cout << "PatientID not found." << std::endl;
     }
 }

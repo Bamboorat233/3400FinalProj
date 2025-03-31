@@ -3,10 +3,8 @@
 
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 #include "../../ConnectMySQL/header/ConnectMySQL.h"
-#include "../../Doctor/header/Doctor.h"
 #include "../../HospitalBranch/header/HospitalBranch.h"
 #include "../../Nurse/header/Nurse.h"
 #include "../../Patient/header/Patient.h"
@@ -31,8 +29,9 @@ class HospitalSystem {
     void addNurse(int branchID, Nurse&& nrs);
     void addPharmacy(Pharmacy&& pharma);
     void generateFinancialReport() const;
-
-    ~HospitalSystem();
+    void AssignDoctorToPatient(int patientID);
+    void nurseAssignPatient(int patientID);
+    void nurseReleasePatient(int staffID, int patientID);
 };
 
 #endif  // HOSPITAL_SYSTEM_H
