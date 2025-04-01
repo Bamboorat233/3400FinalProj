@@ -58,6 +58,15 @@ void Patient::updateCondition(std::string condition) {
               << " condition updated to: " << condition << std::endl;
 }
 
+// 计算费用
+int Patient::calculateFee() { return this->patientFee * this->healingDays; }
+
+bool Patient::isHealed() { return this->medicalCertificate = true; }
+
+bool Patient::getmedicalCertificate() const { return this->medicalCertificate; }
+
+int Patient::getCurrentHospitalID() const { return this->currentHospitalID; }
+
 // 添加治疗方案
 void Patient::addTreatment(std::string treatment) {
     treatments.push_back(treatment);

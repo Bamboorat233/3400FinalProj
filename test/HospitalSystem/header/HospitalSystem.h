@@ -3,10 +3,8 @@
 
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 #include "../../ConnectMySQL/header/ConnectMySQL.h"
-#include "../../Doctor/header/Doctor.h"
 #include "../../HospitalBranch/header/HospitalBranch.h"
 #include "../../Nurse/header/Nurse.h"
 #include "../../Patient/header/Patient.h"
@@ -22,17 +20,19 @@ class HospitalSystem {
 
    public:
     HospitalSystem();
-
+    ~HospitalSystem();
     int registerPatient(const std::string info, int hospitalID,
                         const std::string& medicalCondition,
                         int attendingDoctorID);
     bool transferPatient(int patientID, int newBranch);
-    void addDoctor(int branchID, Doctor&& doc);
-    void addNurse(int branchID, Nurse&& nrs);
+    void addDoctor(int branchID, int staffID, const std::string& name);
+    void addNurse(int branchID, int staffID, const std::string& name);
     void addPharmacy(Pharmacy&& pharma);
     void generateFinancialReport() const;
-
-    ~HospitalSystem();
+    void AssignDoctorToPatient(int patientID);
+    void nurseAssignPatient(int patientID);
+    void nurseReleasePatient(int staffID, int patientID);
+    HospitalBranch getBranch(int branchID);
 };
 
 #endif  // HOSPITAL_SYSTEM_H
