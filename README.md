@@ -1,6 +1,7 @@
 # Hospital Management System
 
 ## Introduction
+This project also includes a GUI implemented using **Qt** under the `test/hospitalUI` folder. Due to time constraints, the `HospitalUI` class is not fully completed. Further development is needed to integrate all functionalities into the GUI.
 
 This is a simple C++ hospital management system that integrates a **MySQL database** using the **MySQL Connector C++ API**. The system supports various functionalities such as registering patients, transferring patients between branches, assigning doctors and nurses, generating financial reports, and adding new doctors and nurses.
 
