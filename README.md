@@ -33,9 +33,9 @@ This is a simple C++ hospital management system that integrates a **MySQL databa
    Modify the connection details as per your local database setup.
 
 ## Compilation
-To compile the code, follow the steps below:
+move CMakeLists.txt into src directory and run the following commands:
 ```bash
-cd /test/HospitalSystem
+cd /src
 # create build directory
 mkdir build
 # Go to the build directory

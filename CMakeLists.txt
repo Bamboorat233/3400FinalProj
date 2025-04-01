@@ -13,15 +13,14 @@ add_compile_options(-g)
 # ========== 修改这里为你的 路径 ==========
 # 包含头文件目录
 include_directories(
-    header
     "C:/Program Files/MySQL/mysql-connector-c++-9.2.0-winx64/include"
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/ConnectMySQL/header/ConnectMySQL.h
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Doctor/header/Doctor.h
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/MedicalStaff/header/MedicalStaff.h
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Patient/header/Patient.h
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Nurse/header/Nurse.h
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/HospitalBranch/header/HospitalBranch.h
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Pharmacy/header/Pharmacy.h
+    header/ConnectMySQL.h
+    header/Doctor.h
+    header/MedicalStaff.h
+    header/Patient.h
+    header/Nurse.h
+    header/HospitalBranch.h
+    header/Pharmacy.h
 )
 
 # 库文件目录
@@ -32,20 +31,20 @@ link_directories(
 
 # ========== 设置源代码路径（推荐使用相对路径） ==========
 set(SOURCE_FILES
-    ${CMAKE_SOURCE_DIR}/HospitalSystemTest.cpp
+    ${CMAKE_SOURCE_DIR}/main.cpp
     ${CMAKE_SOURCE_DIR}/HospitalSystem.cpp
 )
 
 # 创建可执行文件
 add_executable(HospitalSystemTest
     ${SOURCE_FILES}
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/MedicalStaff/MedicalStaff.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Doctor/Doctor.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Patient/Patient.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Nurse/Nurse.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/HospitalBranch/HospitalBranch.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Pharmacy/Pharmacy.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/ConnectMySQL/ConnectMySQL.cpp
+    MedicalStaff.cpp
+    Doctor.cpp
+    Patient.cpp
+    Nurse.cpp
+    HospitalBranch.cpp
+    Pharmacy.cpp
+    ConnectMySQL.cpp
 )
 
 # 链接 MySQL 和 SSL 相关静态库
