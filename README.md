@@ -49,9 +49,9 @@ mingw32-make
 ## Usage
 
 Run the compiled executable:
-
+Make sure that the mysqlcppconnx-2-vs14.dll file and the HospitalManagementSystem.exe file are in the same directory
 ```bash
-./HospitalSystemTest
+./HospitalManagementSystem.exe
 ```
 
 Follow the menu-based UI to interact with the system.
@@ -104,44 +104,3 @@ CREATE TABLE HospitalBranch (
     branchID INT PRIMARY KEY
 );
 ```
-
-##
-
-### 6. 多文件编译
-示例：跨文件夹多文件编译 <Doctor>
-1. 在Doctor文件夹内创建CMakeLists.txt文件
-```bash
-cmake_minimum_required(VERSION 3.10)
-
-# 定义项目名称
-project(DoctorTest)
-
-# 设置 C++ 标准
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_BUILD_TYPE Debug)
-
-add_compile_options(-g)
-
-include_directories(
-    header
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/MedicalStaff/header
-)
-
-add_executable(DoctorTest
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/MedicalStaff/MedicalStaff.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Doctor/Doctor.cpp
-    C:/Users/26773/OneDrive/codefile/3400FinalProj/test/Doctor/DoctorTest.cpp
-)
-```
-2. 生成build文件夹
-```bash
-# 新建文件夹build
-mkdir build
-# 进入文件夹
-cd build
-# 生成Makefile
-cmake -G "MinGW Makefiles" ..
-# 编译代码
-mingw32-make
-```
-=======
