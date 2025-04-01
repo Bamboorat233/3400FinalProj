@@ -16,7 +16,9 @@ int main() {
         cout << "3. Assign Doctor to Patient\n";
         cout << "4. Assign Nurse to Patient\n";
         cout << "5. Generate Financial Report\n";
-        cout << "6. Exit\n";
+        cout << "6. Add Doctor\n";
+        cout << "7. Add Nurse\n";
+        cout << "8. Exit\n";
         cout << "Enter your choice: ";
 
         int choice;
