@@ -1,9 +1,10 @@
-#include "header/HospitalBranch.h"
-#include "../../Patient/header/Patient.h"
-#include "../../Doctor/header/Doctor.h"
-#include "../../Nurse/header/Nurse.h"
-#include "../../MedicalStaff/header/MedicalStaff.h"
 #include <iostream>
+
+#include "../../Doctor/header/Doctor.h"
+#include "../../MedicalStaff/header/MedicalStaff.h"
+#include "../../Nurse/header/Nurse.h"
+#include "../../Patient/header/Patient.h"
+#include "header/HospitalBranch.h"
 
 // Constructor
 HospitalBranch::HospitalBranch(int id) : branchID(id) {}
@@ -36,16 +37,21 @@ bool HospitalBranch::admitPatient(Patient& p, int doctorID) {
     return true;
 }
 
-// Discharge patient (remove from patient list)
-bool HospitalBranch::dischargePatient(int patientID) {
+// Discharge patient (remove from patient list and return fee)
+int HospitalBranch::dischargePatient(int patientID) {
     for (auto it = patients.begin(); it != patients.end(); ++it) {
-        it->displayInfo(); // No getID, using displayInfo() to help identify
-        patients.erase(it);
-        std::cout << "Patient discharged successfully.\n";
-        return true;
+        if (it->getID() == patientID && it->getmedicalCertificate()) {
+            it->displayInfo();
+            patients.erase(it);
+            std::cout << "Patient discharged successfully.\n";
+            return it->calculateFee();
+        } else {
+            std::cout << "Patient medical certificate not valid.\n";
+            return -1;
+        }
     }
     std::cout << "Patient not found.\n";
-    return false;
+    return -1;
 }
 
 // Assign an attending doctor (default: first available)
@@ -75,13 +81,12 @@ bool HospitalBranch::assignNurse(int patientID) {
 // Purchase medication and record billing
 void HospitalBranch::purchaseMedication(int pharmacyID, double amount) {
     pharmacyBills[pharmacyID] += amount;
-    std::cout << "Medication purchased: Pharmacy " << pharmacyID << " added bill of " << amount << " yuan.\n";
+    std::cout << "Medication purchased: Pharmacy " << pharmacyID
+              << " added bill of " << amount << " yuan.\n";
 }
 
 // Get number of available beds
-int HospitalBranch::getAvailableBeds() const {
-    return 20 - patients.size();
-}
+int HospitalBranch::getAvailableBeds() const { return 20 - patients.size(); }
 
 // Display daily report
 void HospitalBranch::displayDailyReport() const {
@@ -93,7 +98,8 @@ void HospitalBranch::displayDailyReport() const {
 
     std::cout << "Pharmacy billing:\n";
     for (const auto& entry : pharmacyBills) {
-        std::cout << "  Pharmacy ID: " << entry.first << " - Total Amount: " << entry.second << " yuan\n";
+        std::cout << "  Pharmacy ID: " << entry.first
+                  << " - Total Amount: " << entry.second << " yuan\n";
     }
 }
 
@@ -104,10 +110,22 @@ void HospitalBranch::addDoctor(Doctor doc) {
     std::cout << "Doctor added successfully, ID: " << id << "\n";
 }
 
-
 // Add nurse (used by HospitalSystem)
 void HospitalBranch::addNurse(Nurse nrs) {
     int id = nrs.getStaffID();
     nurses.push_back(std::move(nrs));
     std::cout << "Nurse added successfully, ID: " << id << "\n";
+}
+
+Doctor& HospitalBranch::getDoctor(int index) { return doctors.at(index); }
+
+bool HospitalBranch::nurseRelease(int patientID) {
+    for (Nurse& nurse : nurses) {
+        if (nurse.releasePatient(patientID)) {
+            std::cout << "Nurse released patient " << patientID << ".\n";
+            return true;
+        }
+    }
+    std::cout << "No nurse found to release patient.\n";
+    return false;
 }

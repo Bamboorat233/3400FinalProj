@@ -1,8 +1,9 @@
-#include "header/Nurse.h"
-#include "../../MedicalStaff/header/MedicalStaff.h"
-
 #include <algorithm>
 #include <iostream>
+
+#include "../../MedicalStaff/header/MedicalStaff.h"
+#include "header/Nurse.h"
+
 
 // 默认构造
 Nurse::Nurse() : MedicalStaff() {}
@@ -30,7 +31,8 @@ Nurse& Nurse::operator=(Nurse&& other) noexcept {
 
 // 析构函数
 Nurse::~Nurse() {
-    //std::cout << "Nurse " << this->getName() << " is destroyed." << std::endl;
+    // std::cout << "Nurse " << this->getName() << " is destroyed." <<
+    // std::endl;
 }
 
 // 分配患者
@@ -46,10 +48,17 @@ bool Nurse::assignPatient(int patientID) {
 }
 
 // 解除患者
-void Nurse::releasePatient(int patientID) {
-    assignedPatients.erase(std::remove(assignedPatients.begin(),
-                                       assignedPatients.end(), patientID),
-                           assignedPatients.end());
+// Nurse.cpp
+bool Nurse::releasePatient(int patientID) {
+    for (auto it = assignedPatients.begin(); it != assignedPatients.end();
+         ++it) {
+        if (*it == patientID) {
+            assignedPatients.erase(it);
+            std::cout << "Patient " << patientID << " released from nurse.\n";
+            return true;  // 返回true表示成功释放
+        }
+    }
+    return false;  // 返回false表示没有找到匹配的患者
 }
 
 // 获取当前负责的患者
