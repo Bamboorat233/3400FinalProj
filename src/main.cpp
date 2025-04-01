@@ -6,9 +6,10 @@
 using namespace std;
 
 int main() {
-    HospitalSystem hospitalSystem;
+    HospitalSystem hospitalSystem;  // Main hospital system object
     bool running = true;
 
+    // Main menu loop
     while (running) {
         cout << "\n====== Hospital System UI ======\n";
         cout << "1. Register Patient\n";
@@ -16,26 +17,28 @@ int main() {
         cout << "3. Assign Doctor to Patient\n";
         cout << "4. Assign Nurse to Patient\n";
         cout << "5. Generate Financial Report\n";
-        cout << "6. Exit\n";
+        cout << "6. Add Doctor\n";
+        cout << "7. Add Nurse\n";
+        cout << "8. Exit\n";
         cout << "Enter your choice: ";
 
         int choice;
         cin >> choice;
 
         switch (choice) {
-            case 1: {  // 注册病人
+            case 1: {  // ✅ Register new patient
                 string info, condition;
                 int hospitalID, doctorID;
 
                 cout << "Enter patient info: ";
-                cin.ignore();
-                getline(cin, info);
+                cin.ignore();              // clear input buffer
+                getline(cin, info);        // read full line
 
                 cout << "Enter hospital ID: ";
                 cin >> hospitalID;
 
                 cout << "Enter medical condition: ";
-                cin.ignore();
+                cin.ignore();              // clear buffer again
                 getline(cin, condition);
 
                 cout << "Enter attending doctor ID: ";
@@ -49,7 +52,7 @@ int main() {
                 }
                 break;
             }
-            case 2: {  // 转移病人
+            case 2: {  // ✅ Transfer patient to another branch
                 int patientID, newBranch;
 
                 cout << "Enter patient ID: ";
@@ -63,7 +66,7 @@ int main() {
                 }
                 break;
             }
-            case 3: {  // 为病人分配医生
+            case 3: {  // ✅ Assign multiple doctors to patient (consultation)
                 int patientID;
                 cout << "Enter patient ID: ";
                 cin >> patientID;
@@ -71,7 +74,7 @@ int main() {
                 hospitalSystem.AssignDoctorToPatient(patientID);
                 break;
             }
-            case 4: {  // 为病人分配护士
+            case 4: {  // ✅ Assign nurse to patient
                 int patientID;
                 cout << "Enter patient ID: ";
                 cin >> patientID;
@@ -79,11 +82,11 @@ int main() {
                 hospitalSystem.nurseAssignPatient(patientID);
                 break;
             }
-            case 5: {  // 生成财务报告
+            case 5: {  // ✅ Generate financial report for all pharmacies
                 hospitalSystem.generateFinancialReport();
                 break;
             }
-            case 6: {  // 添加医生
+            case 6: {  // ✅ Add new doctor to a branch
                 int branchID, staffID;
                 string name;
 
@@ -98,7 +101,7 @@ int main() {
                 hospitalSystem.addDoctor(branchID, staffID, name);
                 break;
             }
-            case 7: {  // 添加护士
+            case 7: {  // ✅ Add new nurse to a branch
                 int branchID, staffID;
                 string name;
 
@@ -113,7 +116,7 @@ int main() {
                 hospitalSystem.addNurse(branchID, staffID, name);
                 break;
             }
-            case 8: {  // 退出系统
+            case 8: {  // ✅ Exit the program
                 running = false;
                 cout << "Exiting the system. Goodbye!\n";
                 break;

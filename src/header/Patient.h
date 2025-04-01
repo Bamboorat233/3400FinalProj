@@ -4,49 +4,55 @@
 #include <string>
 #include <vector>
 
+// Class representing a hospital patient
 class Patient {
    private:
-    int patientID;
-    int currentHospitalID;
-    int patientFee;
-    int healingDays;
-    int attendingDoctorID;
-    std::string personalInfo;
-    std::string medicalCondition;
-    std::vector<std::string> treatments;
-    std::vector<int> consultingDoctors;
-    bool medicalCertificate;
+    int patientID;                   // Unique ID for patient
+    int currentHospitalID;          // Current hospital branch ID
+    int patientFee;                 // Daily hospitalization fee
+    int healingDays;                // Total healing days
+    int attendingDoctorID;         // Assigned primary doctor
+    std::string personalInfo;      // Basic personal information
+    std::string medicalCondition;  // Current medical condition
+    std::vector<std::string> treatments;       // List of treatments
+    std::vector<int> consultingDoctors;        // IDs of consulting doctors
+    bool medicalCertificate;       // Flag indicating discharge eligibility
 
    public:
-    // 构造函数
+    // Constructor
     Patient(int id, std::string info, int hospitalID);
 
-    // 拷贝构造和赋值（如有需要）
+    // Copy constructor & assignment (default)
     Patient(const Patient& other) = default;
     Patient& operator=(const Patient& other) = default;
 
-    // ✅ 移动构造函数和赋值运算符
+    // Move constructor & assignment
     Patient(Patient&& other) noexcept;
     Patient& operator=(Patient&& other) noexcept;
 
-    // 析构函数
+    // Destructor
     ~Patient();
 
+    // Getters
     int getID() const;
     bool getmedicalCertificate() const;
     int getCurrentHospitalID() const;
-    void updateCondition(std::string condition);
     int getAttendingDoctorID() const;
+    std::string getPersonalInfo() const;
+    std::string getMedicalCondition() const;
+
+    // Setters and modifiers
+    void updateCondition(std::string condition);
     void addTreatment(std::string treatment);
     void transferHospital(int newHospitalID);
     void setAttendingDoctor(int doctorID);
     void addConsultingDoctor(int doctorID);
-    std::string getPersonalInfo() const;
-    std::string getMedicalCondition() const;
     void removeConsultingDoctor(int doctorID);
+
+    // Other operations
     void displayInfo() const;
-    int calculateFee();
-    bool isHealed();
+    int calculateFee();       // patientFee * healingDays
+    bool isHealed();          // Mark patient as healed
 };
 
 #endif  // PATIENT_H

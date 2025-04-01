@@ -1,7 +1,7 @@
 #include <iostream>
-
 #include "header/ConnectMySQL.h"
 
+// Constructor: stores database connection settings
 ConnectMySQL::ConnectMySQL(const std::string& host, int port,
                            const std::string& user, const std::string& password,
                            const std::string& dbName)
@@ -12,8 +12,12 @@ ConnectMySQL::ConnectMySQL(const std::string& host, int port,
       dbName(dbName),
       session(nullptr) {}
 
-ConnectMySQL::~ConnectMySQL() { close(); }
+// Destructor: ensures the session is properly closed
+ConnectMySQL::~ConnectMySQL() {
+    close();
+}
 
+// Attempt to connect to the MySQL server
 bool ConnectMySQL::connect() {
     try {
         std::cout << "[INFO] Connecting to MySQL..." << std::endl;
@@ -29,6 +33,7 @@ bool ConnectMySQL::connect() {
     }
 }
 
+// Close and delete the active session
 void ConnectMySQL::close() {
     if (session) {
         session->close();
@@ -38,23 +43,26 @@ void ConnectMySQL::close() {
     }
 }
 
+// Return a table object from schema
 mysqlx::Table ConnectMySQL::getTable(const std::string& tableName) {
     return session->getSchema(dbName).getTable(tableName);
 }
 
-bool ConnectMySQL::isConnected() const { return session != nullptr; }
+// Check if connected
+bool ConnectMySQL::isConnected() const {
+    return session != nullptr;
+}
 
+// Insert new patient into Patient table
 void ConnectMySQL::insertPatient(int patientID, const std::string& info,
-                                 int hospitalID,
-                                 const std::string& medicalCondition,
+                                 int hospitalID, const std::string& medicalCondition,
                                  int attendingDoctorID) {
     try {
         session->getSchema(dbName)
             .getTable("Patient")
             .insert("patientID", "personalInfo", "currentHospitalID",
                     "medicalCondition", "attendingDoctorID")
-            .values(patientID, info, hospitalID, medicalCondition,
-                    attendingDoctorID)
+            .values(patientID, info, hospitalID, medicalCondition, attendingDoctorID)
             .execute();
         std::cout << "Patient inserted!" << std::endl;
     } catch (const mysqlx::Error& err) {
@@ -62,10 +70,9 @@ void ConnectMySQL::insertPatient(int patientID, const std::string& info,
     }
 }
 
-void ConnectMySQL::movePatientToDiffBranch(int patientID,
-                                           const std::string& info,
-                                           int hospitalID,
-                                           const std::string& medicalCondition,
+// Update patient info (e.g. transfer to new branch)
+void ConnectMySQL::movePatientToDiffBranch(int patientID, const std::string& info,
+                                           int hospitalID, const std::string& medicalCondition,
                                            int attendingDoctorID) {
     try {
         session->getSchema(dbName)
@@ -84,6 +91,7 @@ void ConnectMySQL::movePatientToDiffBranch(int patientID,
     }
 }
 
+// Query and print all patient records
 void ConnectMySQL::queryAllPatient() {
     try {
         mysqlx::RowResult res = session->getSchema(dbName)
@@ -96,10 +104,11 @@ void ConnectMySQL::queryAllPatient() {
             std::cout << "CurrentHospitalID: " << row[2] << std::endl;
         }
     } catch (const mysqlx::Error& err) {
-        std::cerr << "Query doctors failed: " << err.what() << std::endl;
+        std::cerr << "Query patients failed: " << err.what() << std::endl;
     }
 }
 
+// Return branchID at index i
 int ConnectMySQL::queryHospitalBranch(int i) {
     try {
         mysqlx::RowResult res = session->getSchema(dbName)
@@ -116,15 +125,14 @@ int ConnectMySQL::queryHospitalBranch(int i) {
         }
 
         std::cerr << "[WARN] Index out of range: " << i << std::endl;
-        return -1;  // 表示未找到
-
+        return -1;
     } catch (const mysqlx::Error& err) {
-        std::cerr << "Query hospital branches failed: " << err.what()
-                  << std::endl;
-        return -1;  // 表示失败
+        std::cerr << "Query hospital branches failed: " << err.what() << std::endl;
+        return -1;
     }
 }
 
+// Return pharmacyID at index i
 int ConnectMySQL::queryPharmacy(int i) {
     try {
         mysqlx::RowResult res = session->getSchema(dbName)
@@ -141,15 +149,14 @@ int ConnectMySQL::queryPharmacy(int i) {
         }
 
         std::cerr << "[WARN] Index out of range: " << i << std::endl;
-        return -1;  // 表示未找到
-
+        return -1;
     } catch (const mysqlx::Error& err) {
-        std::cerr << "Query hospital branches failed: " << err.what()
-                  << std::endl;
-        return -1;  // 表示失败
+        std::cerr << "Query pharmacy failed: " << err.what() << std::endl;
+        return -1;
     }
 }
 
+// Query the max patientID (latest registered patient)
 int ConnectMySQL::queryLastPatientID() {
     try {
         mysqlx::RowResult res = session->getSchema(dbName)
@@ -162,14 +169,14 @@ int ConnectMySQL::queryLastPatientID() {
                 return row[0].get<int>();
             }
         }
-        return -1;  // 如果表为空，返回初始值 -1（下一位将是 0）
+        return -1;
     } catch (const mysqlx::Error& err) {
-        std::cerr << "[ERROR] Failed to query last patient ID: " << err.what()
-                  << std::endl;
-        return -1;  // 出错时返回初始 ID
+        std::cerr << "[ERROR] Failed to query last patient ID: " << err.what() << std::endl;
+        return -1;
     }
 }
 
+// Check whether a doctor with given ID exists
 bool ConnectMySQL::doctorExists(int doctorID) {
     try {
         mysqlx::RowResult res = session->getSchema(dbName)
@@ -179,25 +186,24 @@ bool ConnectMySQL::doctorExists(int doctorID) {
                                     .bind("id", doctorID)
                                     .execute();
 
-        // 如果能 fetch 出来一行，说明存在
-        return res.fetchOne();  // 非空即 true
+        return res.fetchOne();
     } catch (const mysqlx::Error& err) {
         std::cerr << "[ERROR] doctorExists failed: " << err.what() << std::endl;
         return false;
     }
 }
 
+// Load all patients into a map
 std::unordered_map<int, Patient> ConnectMySQL::loadAllPatients() {
     std::unordered_map<int, Patient> result;
 
     try {
         auto table = session->getSchema(dbName).getTable("Patient");
 
-        mysqlx::RowResult res =
-            table
-                .select("patientID", "personalInfo", "currentHospitalID",
-                        "medicalCondition", "attendingDoctorID")
-                .execute();
+        mysqlx::RowResult res = table
+            .select("patientID", "personalInfo", "currentHospitalID",
+                    "medicalCondition", "attendingDoctorID")
+            .execute();
 
         for (mysqlx::Row row : res) {
             int id = row[0].get<int>();
@@ -206,20 +212,20 @@ std::unordered_map<int, Patient> ConnectMySQL::loadAllPatients() {
             std::string condition = row[3].get<std::string>();
             int doctorID = row[4].get<int>();
 
-            // 创建 Patient 实例（根据你的 Patient 构造函数）
             Patient p(id, info, hospitalID);
             p.setAttendingDoctor(doctorID);
             p.updateCondition(condition);
+
             result.emplace(id, std::move(p));
         }
     } catch (const mysqlx::Error& err) {
-        std::cerr << "[ERROR] Failed to load patients: " << err.what()
-                  << std::endl;
+        std::cerr << "[ERROR] Failed to load patients: " << err.what() << std::endl;
     }
 
     return result;
 }
 
+// Load all pharmacies from the database
 std::vector<Pharmacy> ConnectMySQL::loadAllPharmacies() {
     std::vector<Pharmacy> result;
 
@@ -232,19 +238,16 @@ std::vector<Pharmacy> ConnectMySQL::loadAllPharmacies() {
         for (mysqlx::Row row : res) {
             int id = row[0].get<int>();
             double bill = row[1].get<double>();
-
-            result.emplace_back(
-                id, bill);  // 假设 Pharmacy 构造函数是 Pharmacy(int, double)
+            result.emplace_back(id, bill);
         }
-
     } catch (const mysqlx::Error& err) {
-        std::cerr << "[ERROR] Failed to load pharmacies: " << err.what()
-                  << std::endl;
+        std::cerr << "[ERROR] Failed to load pharmacies: " << err.what() << std::endl;
     }
 
     return result;
 }
 
+// Load all hospital branches
 std::vector<HospitalBranch> ConnectMySQL::loadAllHospitalBranches() {
     std::vector<HospitalBranch> result;
 
@@ -256,60 +259,60 @@ std::vector<HospitalBranch> ConnectMySQL::loadAllHospitalBranches() {
 
         for (mysqlx::Row row : res) {
             int id = row[0].get<int>();
-            result.emplace_back(
-                id);  // 假设 HospitalBranch 构造函数是 HospitalBranch(int)
+            result.emplace_back(id);
         }
-
     } catch (const mysqlx::Error& err) {
-        std::cerr << "[ERROR] Failed to load hospital branches: " << err.what()
-                  << std::endl;
+        std::cerr << "[ERROR] Failed to load hospital branches: " << err.what() << std::endl;
     }
 
     return result;
 }
 
+// Insert new doctor into MedicalStaff and Doctor tables
 void ConnectMySQL::addDoctor(int staffID, const std::string& name,
                              int assignedHospital) {
     try {
         auto schema = session->getSchema(dbName);
 
-        // 先插入 MedicalStaff
         schema.getTable("MedicalStaff")
             .insert("staffID", "name", "assignedHospital")
             .values(staffID, name, assignedHospital)
             .execute();
 
-        // 再插入 Doctor（只需 staffID）
-        schema.getTable("Doctor").insert("staffID").values(staffID).execute();
+        schema.getTable("Doctor")
+            .insert("staffID")
+            .values(staffID)
+            .execute();
 
         std::cout << "Doctor added: ID = " << staffID << std::endl;
-
     } catch (const mysqlx::Error& err) {
-        std::cerr << "[ERROR] Failed to add doctor: " << err.what()
-                  << std::endl;
+        std::cerr << "[ERROR] Failed to add doctor: " << err.what() << std::endl;
     }
 }
 
+// Insert new nurse into MedicalStaff and Nurse tables
 void ConnectMySQL::addNurse(int staffID, const std::string& name,
                             int assignedHospital) {
     try {
         auto schema = session->getSchema(dbName);
 
-        // 插入到 MedicalStaff 表
         schema.getTable("MedicalStaff")
             .insert("staffID", "name", "assignedHospital")
             .values(staffID, name, assignedHospital)
             .execute();
 
-        // 插入到 Nurse 表
-        schema.getTable("Nurse").insert("staffID").values(staffID).execute();
+        schema.getTable("Nurse")
+            .insert("staffID")
+            .values(staffID)
+            .execute();
 
         std::cout << "Nurse added: ID = " << staffID << std::endl;
-
     } catch (const mysqlx::Error& err) {
         std::cerr << "[ERROR] Failed to add nurse: " << err.what() << std::endl;
     }
 }
+
+// Add a new pharmacy record
 void ConnectMySQL::addPharmacy(int pharmacyID, double totalBill) {
     try {
         session->getSchema(dbName)
@@ -320,12 +323,12 @@ void ConnectMySQL::addPharmacy(int pharmacyID, double totalBill) {
 
         std::cout << "Pharmacy added: ID = " << pharmacyID
                   << ", TotalBill = " << totalBill << std::endl;
-
     } catch (const mysqlx::Error& err) {
-        std::cerr << "[ERROR] Failed to add pharmacy: " << err.what()
-                  << std::endl;
+        std::cerr << "[ERROR] Failed to add pharmacy: " << err.what() << std::endl;
     }
 }
+
+// Update a pharmacy's total bill
 void ConnectMySQL::updatePharmacyBill(int pharmacyID, double newTotalBill) {
     try {
         session->getSchema(dbName)
@@ -338,9 +341,7 @@ void ConnectMySQL::updatePharmacyBill(int pharmacyID, double newTotalBill) {
 
         std::cout << "Pharmacy bill updated: ID = " << pharmacyID
                   << ", New Total = " << newTotalBill << std::endl;
-
     } catch (const mysqlx::Error& err) {
-        std::cerr << "[ERROR] Failed to update pharmacy bill: " << err.what()
-                  << std::endl;
+        std::cerr << "[ERROR] Failed to update pharmacy bill: " << err.what() << std::endl;
     }
 }

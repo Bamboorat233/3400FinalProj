@@ -3,31 +3,41 @@
 
 #include <iostream>
 
+// Pharmacy class used to track billing in the hospital system
 class Pharmacy {
    private:
-    int pharmacyID;
-    double totalBill;
+    int pharmacyID;       // Unique ID for the pharmacy
+    double totalBill;     // Total bill amount recorded
 
    public:
-    // 构造函数
+    // Constructor with parameters
     Pharmacy(int id, double totalBill);
+
+    // Copy constructor
     Pharmacy(const Pharmacy& other);
 
-    // 添加账单金额
+    // Move constructor
+    Pharmacy(Pharmacy&& other) noexcept;
+
+    // Move assignment operator
+    Pharmacy& operator=(Pharmacy&& other) noexcept;
+
+    // Add bill amount to total
     void addBill(double amount);
 
-    // 获取当前总账单
+    // Get total bill
     double getTotalBill() const;
+
+    // Set total bill manually
     void setTotalBill(double amount);
 
-    // 获取和设置药房ID
+    // Get pharmacy ID
     int getPharmacyID() const;
+
+    // Set pharmacy ID
     void setpharmacyID(int id);
 
-    Pharmacy(Pharmacy&& other) noexcept;             // ✅ 移动构造
-    Pharmacy& operator=(Pharmacy&& other) noexcept;  // ✅ 移动赋值
-
-    // 析构函数
+    // Destructor
     ~Pharmacy();
 };
 

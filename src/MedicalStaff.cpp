@@ -1,34 +1,33 @@
 #include "header/MedicalStaff.h"
-
 #include <utility>
 
-// 默认构造
+// Default constructor: initializes with default values
 MedicalStaff::MedicalStaff() : staffID(0), name(""), assignedHospital(0) {}
 
-// 带参数构造
+// Parameterized constructor
 MedicalStaff::MedicalStaff(int id, const std::string& name, int hospital)
     : staffID(id), name(name), assignedHospital(hospital) {}
 
-// 拷贝构造函数
+// Copy constructor
 MedicalStaff::MedicalStaff(const MedicalStaff& other)
     : staffID(other.staffID),
       name(other.name),
       assignedHospital(other.assignedHospital) {}
 
-// ✅ 移动构造函数
+// Move constructor
 MedicalStaff::MedicalStaff(MedicalStaff&& other) noexcept
     : staffID(other.staffID),
       name(std::move(other.name)),
       assignedHospital(other.assignedHospital) {
-    // 可选：清理源对象
+    // Optionally reset the moved-from object
     other.staffID = 0;
     other.assignedHospital = 0;
 }
 
-// 析构函数
+// Destructor
 MedicalStaff::~MedicalStaff() {}
 
-// 拷贝赋值运算符
+// Copy assignment operator
 MedicalStaff& MedicalStaff::operator=(const MedicalStaff& other) {
     if (this != &other) {
         staffID = other.staffID;
@@ -38,30 +37,41 @@ MedicalStaff& MedicalStaff::operator=(const MedicalStaff& other) {
     return *this;
 }
 
-// ✅ 移动赋值运算符
+// Move assignment operator
 MedicalStaff& MedicalStaff::operator=(MedicalStaff&& other) noexcept {
     if (this != &other) {
         staffID = other.staffID;
         name = std::move(other.name);
         assignedHospital = other.assignedHospital;
 
-        // 可选：清理源对象
+        // Optionally reset the moved-from object
         other.staffID = 0;
         other.assignedHospital = 0;
     }
     return *this;
 }
 
-// Getter 和 Setter 实现
-int MedicalStaff::getStaffID() const { return this->staffID; }
+// Getters
+int MedicalStaff::getStaffID() const {
+    return this->staffID;
+}
 
-std::string MedicalStaff::getName() const { return this->name; }
+std::string MedicalStaff::getName() const {
+    return this->name;
+}
 
-int MedicalStaff::getAssignedHospital() const { return this->assignedHospital; }
+int MedicalStaff::getAssignedHospital() const {
+    return this->assignedHospital;
+}
 
-void MedicalStaff::setStaffID(int id) { staffID = id; }
+// Setters
+void MedicalStaff::setStaffID(int id) {
+    staffID = id;
+}
 
-void MedicalStaff::setName(const std::string& name) { this->name = name; }
+void MedicalStaff::setName(const std::string& name) {
+    this->name = name;
+}
 
 void MedicalStaff::setAssignedHospital(int hospital) {
     assignedHospital = hospital;

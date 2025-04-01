@@ -9,36 +9,41 @@
 #include "../../Nurse/header/Nurse.h"
 #include "../../Patient/header/Patient.h"
 
+// This class represents a single hospital branch in the network.
+// It manages patients, doctors, nurses, and pharmacy billing.
 class HospitalBranch {
    private:
-    int branchID;                   // 院区唯一标识
-    std::vector<Patient> patients;  // 当前院区的患者列表（最多20个）
-    std::vector<Doctor> doctors;    // 当前院区的医生列表（至少3名）
-    std::vector<Nurse> nurses;      // 当前院区的护士列表（至少5名）
-    std::unordered_map<int, double> pharmacyBills;  // 药房账单记录
+    int branchID;  // Unique branch ID
+
+    std::vector<Patient> patients;     // Patient list (max 20)
+    std::vector<Doctor> doctors;       // Doctor list (at least 3)
+    std::vector<Nurse> nurses;         // Nurse list (at least 5)
+    std::unordered_map<int, double> pharmacyBills;  // Pharmacy billing record
 
    public:
-    // 构造函数
+    // Constructor
     HospitalBranch(int id);
-    Doctor& getDoctor(int index);  // 获取医生
 
-    // 患者相关操作
-    bool admitPatient(Patient& p, int doctorID);  // 接收患者
-    int dischargePatient(int patientID);          // 出院结算费用
-    bool assignDoctor(int patientID);             // 分配主治医生
-    bool assignNurse(int patientID);              // 分配护士
-    bool nurseRelease(int patientID);             // 解除护士责任
+    // Get a reference to a doctor by index
+    Doctor& getDoctor(int index);
 
-    // 药品相关
-    void purchaseMedication(int pharmacyID, double amount);  // 药品采购
+    // Patient management
+    bool admitPatient(Patient& p, int doctorID);  // Admit patient with doctor
+    int dischargePatient(int patientID);          // Discharge patient with fee check
+    bool assignDoctor(int patientID);             // Assign doctor to patient
+    bool assignNurse(int patientID);              // Assign nurse to patient
+    bool nurseRelease(int patientID);             // Release nurse from patient
 
-    // 院区状态
-    int getAvailableBeds() const;     // 获取剩余床位
-    void displayDailyReport() const;  // 生成日报表
+    // Pharmacy operations
+    void purchaseMedication(int pharmacyID, double amount);  // Record medication purchase
 
-    // ✅ 为系统初始化添加医护人员（辅助函数）
-    void addDoctor(Doctor doc);
-    void addNurse(Nurse nrs);
+    // Branch status
+    int getAvailableBeds() const;     // Return available bed count
+    void displayDailyReport() const;  // Display daily summary
+
+    // Initialization helpers for HospitalSystem
+    void addDoctor(Doctor doc);       // Add doctor to branch
+    void addNurse(Nurse nrs);         // Add nurse to branch
 };
 
 #endif  // HOSPITAL_BRANCH_H
