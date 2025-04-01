@@ -4,24 +4,24 @@
 #include <algorithm>
 #include <iostream>
 
-// 默认构造
+// Default constructor
 Doctor::Doctor() : MedicalStaff() {}
 
-// 带参构造
+// Parameterized constructor
 Doctor::Doctor(int id, std::string n, int h) : MedicalStaff(id, n, h) {}
 
-// 拷贝构造
+// Copy constructor
 Doctor::Doctor(const Doctor& doc)
     : MedicalStaff(doc), assignedPatients(doc.assignedPatients) {}
 
-// ✅ 移动构造函数
+// Move constructor
 Doctor::Doctor(Doctor&& other) noexcept
     : MedicalStaff(std::move(other)),
       assignedPatients(std::move(other.assignedPatients)) {
-    // 其他成员（无指针资源）无需特别清空，std::move会将其置于有效但未指定状态
+    // std::move transfers ownership of vector contents
 }
 
-// ✅ 移动赋值运算符
+// Move assignment operator
 Doctor& Doctor::operator=(Doctor&& other) noexcept {
     if (this != &other) {
         MedicalStaff::operator=(std::move(other));
@@ -30,31 +30,34 @@ Doctor& Doctor::operator=(Doctor&& other) noexcept {
     return *this;
 }
 
-// 析构函数
+// Destructor
 Doctor::~Doctor() {
-    //std::cout << "Doctor " << this->getName() << " destructed" << std::endl;
+    // Optional: print for debugging
+    // std::cout << "Doctor " << this->getName() << " destructed" << std::endl;
 }
 
-// 分配患者
+// Assign a patient to this doctor
 bool Doctor::assignPatient(int patientID) {
     if (assignedPatients.size() >= MAX_PATIENTS) return false;
 
-    if (std::find(assignedPatients.begin(), assignedPatients.end(),
-                  patientID) == assignedPatients.end()) {
+    // Avoid duplicate assignments
+    if (std::find(assignedPatients.begin(), assignedPatients.end(), patientID) ==
+        assignedPatients.end()) {
         assignedPatients.push_back(patientID);
         return true;
     }
+
     return false;
 }
 
-// 解除患者关系
+// Remove a patient from this doctor
 void Doctor::releasePatient(int patientID) {
     assignedPatients.erase(std::remove(assignedPatients.begin(),
                                        assignedPatients.end(), patientID),
                            assignedPatients.end());
 }
 
-// 获取当前分配的患者列表
+// Return the list of assigned patient IDs
 std::vector<int> Doctor::getAssignedPatients() const {
     return assignedPatients;
 }

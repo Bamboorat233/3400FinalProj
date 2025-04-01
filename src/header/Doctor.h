@@ -6,30 +6,39 @@
 
 #include "../../MedicalStaff/header/MedicalStaff.h"
 
+// Doctor class inherits from MedicalStaff
+// Represents a doctor who can be assigned to multiple patients
 class Doctor : public MedicalStaff {
    private:
-    std::vector<int> assignedPatients;   // 负责的患者ID列表
-    static const int MAX_PATIENTS = 10;  // 最大接诊量
+    std::vector<int> assignedPatients;   // List of assigned patient IDs
+    static const int MAX_PATIENTS = 10;  // Max number of patients a doctor can handle
 
    public:
-    // 构造函数
+    // Default constructor
     Doctor();
+
+    // Constructor with parameters (ID, name, hospital ID)
     Doctor(int id, std::string n, int h);
-    Doctor(const Doctor& doc);  // 拷贝构造
 
-    Doctor(Doctor&& other) noexcept;             // ✅ 移动构造
-    Doctor& operator=(Doctor&& other) noexcept;  // ✅ 移动赋值
+    // Copy constructor
+    Doctor(const Doctor& doc);
 
-    // 分配患者
+    // Move constructor
+    Doctor(Doctor&& other) noexcept;
+
+    // Move assignment operator
+    Doctor& operator=(Doctor&& other) noexcept;
+
+    // Assign a patient to this doctor
     bool assignPatient(int patientID);
 
-    // 解除患者关系
+    // Release a patient from this doctor
     void releasePatient(int patientID);
 
-    // 获取当前分配的患者列表
+    // Get a list of currently assigned patient IDs
     std::vector<int> getAssignedPatients() const;
 
-    // 析构函数
+    // Destructor
     ~Doctor();
 };
 

@@ -4,23 +4,22 @@
 #include "../../MedicalStaff/header/MedicalStaff.h"
 #include "header/Nurse.h"
 
-
-// 默认构造
+// Default constructor
 Nurse::Nurse() : MedicalStaff() {}
 
-// 带参数构造
+// Constructor with parameters
 Nurse::Nurse(int id, std::string n, int h) : MedicalStaff(id, n, h) {}
 
-// 拷贝构造
+// Copy constructor
 Nurse::Nurse(const Nurse& other)
     : MedicalStaff(other), assignedPatients(other.assignedPatients) {}
 
-// ✅ 移动构造函数
+// Move constructor
 Nurse::Nurse(Nurse&& other) noexcept
     : MedicalStaff(std::move(other)),
       assignedPatients(std::move(other.assignedPatients)) {}
 
-// ✅ 移动赋值运算符
+// Move assignment operator
 Nurse& Nurse::operator=(Nurse&& other) noexcept {
     if (this != &other) {
         MedicalStaff::operator=(std::move(other));
@@ -29,37 +28,40 @@ Nurse& Nurse::operator=(Nurse&& other) noexcept {
     return *this;
 }
 
-// 析构函数
+// Destructor
 Nurse::~Nurse() {
-    // std::cout << "Nurse " << this->getName() << " is destroyed." <<
-    // std::endl;
+    // Optional: debug output
+    // std::cout << "Nurse " << this->getName() << " is destroyed." << std::endl;
 }
 
-// 分配患者
+// Assign a patient to this nurse
 bool Nurse::assignPatient(int patientID) {
+    // Check max limit
     if (assignedPatients.size() >= 2) return false;
 
-    if (std::find(assignedPatients.begin(), assignedPatients.end(),
-                  patientID) == assignedPatients.end()) {
+    // Avoid duplicates
+    if (std::find(assignedPatients.begin(), assignedPatients.end(), patientID) ==
+        assignedPatients.end()) {
         assignedPatients.push_back(patientID);
         return true;
     }
+
     return false;
 }
 
-// 解除患者
-// Nurse.cpp
+// Release a patient from this nurse
 bool Nurse::releasePatient(int patientID) {
-    for (auto it = assignedPatients.begin(); it != assignedPatients.end();
-         ++it) {
+    for (auto it = assignedPatients.begin(); it != assignedPatients.end(); ++it) {
         if (*it == patientID) {
             assignedPatients.erase(it);
             std::cout << "Patient " << patientID << " released from nurse.\n";
-            return true;  // 返回true表示成功释放
+            return true;  // Successfully released
         }
     }
-    return false;  // 返回false表示没有找到匹配的患者
+    return false;  // Patient not found
 }
 
-// 获取当前负责的患者
-std::vector<int> Nurse::getAssignedPatients() const { return assignedPatients; }
+// Return current list of assigned patient IDs
+std::vector<int> Nurse::getAssignedPatients() const {
+    return assignedPatients;
+}

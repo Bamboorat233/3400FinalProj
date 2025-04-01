@@ -1,20 +1,22 @@
 #include "header/Pharmacy.h"
 
-// 构造函数实现
+// Constructor: initialize ID and total bill
 Pharmacy::Pharmacy(int id, double totalBill)
     : pharmacyID(id), totalBill(totalBill) {}
 
+// Copy constructor
 Pharmacy::Pharmacy(const Pharmacy& other)
     : pharmacyID(other.pharmacyID), totalBill(other.totalBill) {}
 
-// ✅ 移动构造函数
+// Move constructor
 Pharmacy::Pharmacy(Pharmacy&& other) noexcept
     : pharmacyID(other.pharmacyID), totalBill(other.totalBill) {
+    // Reset moved-from object
     other.pharmacyID = 0;
     other.totalBill = 0.0;
 }
 
-// ✅ 移动赋值运算符
+// Move assignment operator
 Pharmacy& Pharmacy::operator=(Pharmacy&& other) noexcept {
     if (this != &other) {
         pharmacyID = other.pharmacyID;
@@ -26,18 +28,33 @@ Pharmacy& Pharmacy::operator=(Pharmacy&& other) noexcept {
     return *this;
 }
 
-// 添加账单金额
-void Pharmacy::addBill(double amount) { totalBill += amount; }
+// Add bill amount to total
+void Pharmacy::addBill(double amount) {
+    totalBill += amount;
+}
 
-// 获取当前总账单
-double Pharmacy::getTotalBill() const { return totalBill; }
+// Return total bill
+double Pharmacy::getTotalBill() const {
+    return totalBill;
+}
 
-void Pharmacy::setTotalBill(double amount) { totalBill = amount; }
+// Set total bill manually
+void Pharmacy::setTotalBill(double amount) {
+    totalBill = amount;
+}
 
-int Pharmacy::getPharmacyID() const { return pharmacyID; }
+// Get pharmacy ID
+int Pharmacy::getPharmacyID() const {
+    return pharmacyID;
+}
 
-void Pharmacy::setpharmacyID(int id) { pharmacyID = id; }
+// Set pharmacy ID
+void Pharmacy::setpharmacyID(int id) {
+    pharmacyID = id;
+}
 
+// Destructor
 Pharmacy::~Pharmacy() {
+    // Optional: log for destruction
     // std::cout << "Pharmacy " << pharmacyID << " is destroyed." << std::endl;
 }

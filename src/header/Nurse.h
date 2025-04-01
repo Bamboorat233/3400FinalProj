@@ -6,28 +6,38 @@
 
 #include "../../MedicalStaff/header/MedicalStaff.h"
 
+// Nurse class inherits from MedicalStaff
+// Each nurse can be assigned to a maximum of 2 patients
 class Nurse : public MedicalStaff {
    private:
-    std::vector<int> assignedPatients;  // 护士最多负责2个患者
+    std::vector<int> assignedPatients;  // List of patient IDs (max 2)
 
    public:
-    // 构造函数
+    // Default constructor
     Nurse();
-    Nurse(int id, std::string n, int h);
-    Nurse(const Nurse& other);                 // 拷贝构造函数
-    Nurse(Nurse&& other) noexcept;             // ✅ 移动构造函数
-    Nurse& operator=(Nurse&& other) noexcept;  // ✅ 移动赋值运算符
 
-    // 分配患者
+    // Constructor with parameters
+    Nurse(int id, std::string n, int h);
+
+    // Copy constructor
+    Nurse(const Nurse& other);
+
+    // Move constructor
+    Nurse(Nurse&& other) noexcept;
+
+    // Move assignment operator
+    Nurse& operator=(Nurse&& other) noexcept;
+
+    // Assign a patient to this nurse (max 2 allowed)
     bool assignPatient(int patientID);
 
-    // 解除患者
+    // Release a patient from this nurse
     bool releasePatient(int patientID);
 
-    // 获取当前负责的患者
+    // Get list of assigned patient IDs
     std::vector<int> getAssignedPatients() const;
 
-    // 析构函数
+    // Destructor
     ~Nurse();
 };
 
