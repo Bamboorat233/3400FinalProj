@@ -26,6 +26,23 @@ HospitalSystem::HospitalSystem()
     // Initialize branches vector
     branches = db.loadAllHospitalBranches();
 
+    std::vector<Doctor> allDoctors = db.loadAllDoctors();
+    std::vector<Nurse> allNurses = db.loadAllNurses();
+
+    for (Doctor& doctor : allDoctors) {
+        int branchID = doctor.getAssignedHospital();
+        if (branchID >= 1 && branchID <= branches.size()) {
+            branches[branchID - 1].addDoctor(doctor);
+        }
+    }
+
+    for (Nurse& nurse : allNurses) {
+        int branchID = nurse.getAssignedHospital();
+        if (branchID >= 1 && branchID <= branches.size()) {
+            branches[branchID - 1].addNurse(nurse);
+        }
+    }
+
     std::cout << "Loaded " << allPatients.size()
               << " patients from database.\n";
 
@@ -34,6 +51,9 @@ HospitalSystem::HospitalSystem()
 
     std::cout << "Loaded " << branches.size()
               << " hospital branches from database.\n";
+
+    std::cout << "Loaded " << allDoctors.size() << " doctors from database.\n";
+    std::cout << "Loaded " << allNurses.size() << " nurses from database.\n";
 }
 
 HospitalSystem::~HospitalSystem() { db.close(); }
@@ -71,8 +91,10 @@ bool HospitalSystem::transferPatient(int patientID, int newBranch) {
 
     // 更新内存中的 patient 对象
     it->second.transferHospital(newBranch);
+    db.movePatientToDiffBranch(it->second.getID(), newBranch);
     std::cout << "Patient " << patientID
               << " successfully transferred to branch " << newBranch << "\n";
+
     return true;
 }
 
@@ -124,6 +146,14 @@ void HospitalSystem::AssignDoctorToPatient(int patientID) {
     if (it != allPatients.end()) {
         int branchID = it->second.getCurrentHospitalID();
         HospitalBranch& HB = branches.at(branchID - 1);
+
+        int doctorCount = HB.getDoctorCount();  // 添加这个方法用于获取医生数量
+        if (doctorCount < 3) {
+            std::cerr << "[ERROR] Not enough doctors in the branch. Found only "
+                      << doctorCount << " doctors.\n";
+            return;
+        }
+
         for (int i = 0; i < 3; i++) {
             it->second.addConsultingDoctor(HB.getDoctor(i).getStaffID());
         }

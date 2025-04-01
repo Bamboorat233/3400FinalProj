@@ -66,6 +66,8 @@ bool HospitalBranch::assignDoctor(int patientID) {
     return false;
 }
 
+int HospitalBranch::getDoctorCount() const { return doctors.size(); }
+
 // Assign a nurse (default: first available)
 bool HospitalBranch::assignNurse(int patientID) {
     for (Nurse& nurse : nurses) {
