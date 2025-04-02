@@ -182,6 +182,7 @@ void HospitalSystem::nurseAssignPatient(int patientID) {
         } else {
             std::cout << "No nurse currently available." << std::endl;
         }
+
     } else {
         std::cout << "PatientID not found." << std::endl;
     }
