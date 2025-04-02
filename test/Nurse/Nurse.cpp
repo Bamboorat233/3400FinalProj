@@ -4,7 +4,6 @@
 #include "../../MedicalStaff/header/MedicalStaff.h"
 #include "header/Nurse.h"
 
-
 // 默认构造
 Nurse::Nurse() : MedicalStaff() {}
 
@@ -37,14 +36,21 @@ Nurse::~Nurse() {
 
 // 分配患者
 bool Nurse::assignPatient(int patientID) {
-    if (assignedPatients.size() >= 2) return false;
+    if (assignedPatients.size() >= 2) {
+        std::cout << "[WARNING] Nurse cannot handle more than 2 patients.\n";
+        return false;
+    }
 
     if (std::find(assignedPatients.begin(), assignedPatients.end(),
                   patientID) == assignedPatients.end()) {
         assignedPatients.push_back(patientID);
+        std::cout << "Patient " << patientID << " assigned successfully.\n";
         return true;
+    } else {
+        std::cout << "[WARNING] Patient " << patientID
+                  << " is already assigned to this nurse.\n";
+        return false;
     }
-    return false;
 }
 
 // 解除患者

@@ -66,11 +66,14 @@ bool HospitalBranch::assignDoctor(int patientID) {
     return false;
 }
 
+int HospitalBranch::getDoctorCount() const { return doctors.size(); }
+
 // Assign a nurse (default: first available)
 bool HospitalBranch::assignNurse(int patientID) {
     for (Nurse& nurse : nurses) {
         if (nurse.assignPatient(patientID)) {
-            std::cout << "Nurse assigned to patient " << patientID << ".\n";
+            std::cout << "Nurse " << nurse.getStaffID()
+                      << "assigned to patient " << patientID << ".\n";
             return true;
         }
     }

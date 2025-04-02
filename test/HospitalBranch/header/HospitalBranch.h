@@ -39,6 +39,7 @@ class HospitalBranch {
     // ✅ 为系统初始化添加医护人员（辅助函数）
     void addDoctor(Doctor doc);
     void addNurse(Nurse nrs);
+    int getDoctorCount() const;
 };
 
 #endif  // HOSPITAL_BRANCH_H
