@@ -62,19 +62,12 @@ void ConnectMySQL::insertPatient(int patientID, const std::string& info,
     }
 }
 
-void ConnectMySQL::movePatientToDiffBranch(int patientID,
-                                           const std::string& info,
-                                           int hospitalID,
-                                           const std::string& medicalCondition,
-                                           int attendingDoctorID) {
+void ConnectMySQL::movePatientToDiffBranch(int patientID, int hospitalID) {
     try {
         session->getSchema(dbName)
             .getTable("Patient")
             .update()
-            .set("personalInfo", info)
             .set("currentHospitalID", hospitalID)
-            .set("medicalCondition", medicalCondition)
-            .set("attendingDoctorID", attendingDoctorID)
             .where("patientID = :id")
             .bind("id", patientID)
             .execute();
@@ -343,4 +336,75 @@ void ConnectMySQL::updatePharmacyBill(int pharmacyID, double newTotalBill) {
         std::cerr << "[ERROR] Failed to update pharmacy bill: " << err.what()
                   << std::endl;
     }
+}
+
+std::vector<Doctor> ConnectMySQL::loadAllDoctors() {
+    std::vector<Doctor> result;
+
+    try {
+        mysqlx::RowResult res = session->getSchema(dbName)
+                                    .getTable("Doctor")
+                                    .select("staffID")
+                                    .execute();
+
+        for (mysqlx::Row row : res) {
+            int staffID = row[0].get<int>();
+
+            // 从 MedicalStaff 表中查询名字和所属医院
+            mysqlx::RowResult res2 = session->getSchema(dbName)
+                                         .getTable("MedicalStaff")
+                                         .select("name", "assignedHospital")
+                                         .where("staffID = :id")
+                                         .bind("id", staffID)
+                                         .execute();
+
+            if (mysqlx::Row row2 =
+                    res2.fetchOne()) {  // fetchOne() 返回单个 Row
+                std::string name = row2[0].get<std::string>();
+                int assignedHospital = row2[1].get<int>();
+
+                result.emplace_back(staffID, name, assignedHospital);
+            }
+        }
+    } catch (const mysqlx::Error& err) {
+        std::cerr << "[ERROR] Failed to load doctors: " << err.what()
+                  << std::endl;
+    }
+
+    return result;
+}
+
+std::vector<Nurse> ConnectMySQL::loadAllNurses() {
+    std::vector<Nurse> result;
+
+    try {
+        mysqlx::RowResult res = session->getSchema(dbName)
+                                    .getTable("Nurse")
+                                    .select("staffID")
+                                    .execute();
+
+        for (mysqlx::Row row : res) {
+            int staffID = row[0].get<int>();
+
+            // 从 MedicalStaff 表中查询名字和所属医院
+            mysqlx::RowResult res2 = session->getSchema(dbName)
+                                         .getTable("MedicalStaff")
+                                         .select("name", "assignedHospital")
+                                         .where("staffID = :id")
+                                         .bind("id", staffID)
+                                         .execute();
+
+            if (mysqlx::Row row2 = res2.fetchOne()) {
+                std::string name = row2[0].get<std::string>();
+                int assignedHospital = row2[1].get<int>();
+
+                result.emplace_back(staffID, name, assignedHospital);
+            }
+        }
+    } catch (const mysqlx::Error& err) {
+        std::cerr << "[ERROR] Failed to load nurses: " << err.what()
+                  << std::endl;
+    }
+
+    return result;
 }

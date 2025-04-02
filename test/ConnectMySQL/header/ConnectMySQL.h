@@ -38,10 +38,7 @@ class ConnectMySQL {
                        const std::string& medicalCondition,
                        int attendingDoctorID);
 
-    void movePatientToDiffBranch(int patientID, const std::string& info,
-                                 int hospitalID,
-                                 const std::string& medicalCondition,
-                                 int attendingDoctorID);
+    void movePatientToDiffBranch(int patientID, int hospitalID);
 
     void queryAllPatient();
 
@@ -56,6 +53,8 @@ class ConnectMySQL {
     std::unordered_map<int, Patient> loadAllPatients();
     std::vector<Pharmacy> loadAllPharmacies();
     std::vector<HospitalBranch> loadAllHospitalBranches();
+    std::vector<Doctor> loadAllDoctors();
+    std::vector<Nurse> loadAllNurses();
 
     void addDoctor(int staffID, const std::string& name, int assignedHospital);
     void addNurse(int staffID, const std::string& name, int assignedHospital);
